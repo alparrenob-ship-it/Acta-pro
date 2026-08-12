@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACTA PRO - Inteligencia Artificial para la Gestión Docente</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Font: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            bg: '#FBFBFD',
+                            dark: '#1D1D1F',
+                            muted: '#86868B',
+                            navy: '#0A2540',
+                            blue: '#0066CC',
+                            purple: '#7C3AED',
+                            purpleLight: '#F3E8FF',
+                            green: '#10B981',
+                            greenLight: '#D1FAE5'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'apple': '0 20px 40px -15px rgba(0, 0, 0, 0.07)',
+                        'apple-hover': '0 30px 60px -12px rgba(0, 0, 0, 0.12)',
+                        'glow-purple': '0 0 25px rgba(124, 58, 237, 0.25)',
+                        'glow-blue': '0 0 25px rgba(0, 102, 204, 0.25)'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom CSS for Apple Aesthetics and Animations -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FBFBFD;
+            color: #1D1D1F;
+            overflow-x: hidden;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .glass-nav {
+            background: rgba(251, 251, 253, 0.82);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .gradient-text-purple {
+            background: linear-gradient(135deg, #0A2540 0%, #7C3AED 50%, #0066CC 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gradient-bg-ai {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.08) 0%, rgba(0, 102, 204, 0.05) 100%);
+        }
+
+        /* Soundwave Animation */
+        .bar {
+            display: inline-block;
+            width: 3px;
+            height: 18px;
+            background-color: #7C3AED;
+            border-radius: 3px;
+            animation: soundwave 1.2s ease-in-out infinite alternate;
+        }
+        .bar:nth-child(1) { animation-delay: 0.1s; height: 10px; }
+        .bar:nth-child(2) { animation-delay: 0.3s; height: 22px; }
+        .bar:nth-child(3) { animation-delay: 0.2s; height: 15px; }
+        .bar:nth-child(4) { animation-delay: 0.4s; height: 28px; }
+        .bar:nth-child(5) { animation-delay: 0.15s; height: 12px; }
+
+        @keyframes soundwave {
+            0% { transform: scaleY(0.4); }
+            100% { transform: scaleY(1.1); }
+        }
+
+        /* Folder tree item hover */
+        .tree-item {
+            transition: all 0.2s ease;
+        }
+        .tree-item:hover {
+            background-color: rgba(0, 102, 204, 0.05);
+        }
+
+        /* Hide scrollbars for slick look */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-purple selection:text-white">
+
+    <!-- Sticky Navigation Bar -->
+    <header class="fixed top-0 left-0 right-0 z-50 glass-nav border-b border-gray-200/60 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-2.5 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-navy via-brand-purple to-brand-blue flex items-center justify-center text-white shadow-md shadow-brand-purple/20 group-hover:scale-105 transition-transform duration-300">
+                    <i class="fa-solid fa-shield-halved text-lg"></i>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-extrabold text-xl tracking-tight text-brand-navy flex items-center gap-1">
+                        ACTA<span class="text-brand-purple">PRO</span>
+                    </span>
+                    <span class="text-[10px] font-semibold tracking-wider text-brand-muted uppercase -mt-1">IA Docente</span>
+                </div>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden lg:flex items-center space-x-8 text-sm font-medium text-brand-dark">
+                <a href="#inicio" class="hover:text-brand-purple transition-colors">Inicio</a>
+                <a href="#caracteristicas" class="hover:text-brand-purple transition-colors">Características</a>
+                <a href="#como-funciona" class="hover:text-brand-purple transition-colors">Cómo funciona</a>
+                <a href="#proteccion" class="hover:text-brand-purple transition-colors">Protección</a>
+                <a href="#seguridad" class="hover:text-brand-purple transition-colors">Seguridad</a>
+                <a href="#planes" class="hover:text-brand-purple transition-colors">Planes</a>
+            </nav>
+
+            <!-- Header Action Buttons -->
+            <div class="hidden sm:flex items-center space-x-4">
+                <button onclick="openDemoModal()" class="text-sm font-semibold text-brand-navy hover:text-brand-purple transition-colors px-3 py-2">
+                    Iniciar sesión
+                </button>
+                <button onclick="openDemoModal()" class="px-5 py-2.5 rounded-full bg-brand-navy hover:bg-brand-purple text-white font-medium text-sm transition-all duration-300 shadow-md hover:shadow-glow-purple flex items-center gap-2">
+                    <span>Solicitar demostración</span>
+                    <i class="fa-solid fa-arrow-right text-xs"></i>
+                </button>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button id="mobileMenuBtn" class="lg:hidden text-brand-dark p-2 focus:outline-none" aria-label="Abrir Menú">
+                <i class="fa-solid fa-bars text-xl"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobileMenu" class="hidden lg:hidden bg-white border-b border-gray-200 px-6 py-6 space-y-4 shadow-xl">
+            <a href="#inicio" class="block font-medium text-gray-800 hover:text-brand-purple">Inicio</a>
+            <a href="#caracteristicas" class="block font-medium text-gray-800 hover:text-brand-purple">Características</a>
+            <a href="#como-funciona" class="block font-medium text-gray-800 hover:text-brand-purple">Cómo funciona</a>
+            <a href="#proteccion" class="block font-medium text-gray-800 hover:text-brand-purple">Protección Docente</a>
+            <a href="#seguridad" class="block font-medium text-gray-800 hover:text-brand-purple">Seguridad</a>
+            <a href="#planes" class="block font-medium text-gray-800 hover:text-brand-purple">Planes</a>
+            <div class="pt-4 border-t border-gray-100 flex flex-col gap-3">
+                <button onclick="openDemoModal()" class="w-full py-2.5 text-center font-semibold text-brand-navy border border-gray-300 rounded-full">Iniciar sesión</button>
+                <button onclick="openDemoModal()" class="w-full py-2.5 text-center font-semibold text-white bg-brand-navy rounded-full shadow-lg">Solicitar demostración</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="inicio" class="relative pt-28 sm:pt-36 pb-20 overflow-hidden">
+        <!-- Subtle Glow Background Elements -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-gradient-to-tr from-purple-200/40 to-blue-200/40 rounded-full blur-3xl pointer-events-none -z-10"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+                
+                <!-- Left Column: Copy & Actions -->
+                <div class="lg:col-span-6 space-y-8 text-left">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-purpleLight border border-brand-purple/20 text-brand-purple text-xs font-semibold tracking-wide">
+                        <span class="w-2 h-2 rounded-full bg-brand-purple animate-ping"></span>
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        <span>Inteligencia Artificial para la Gestión Docente</span>
+                    </div>
+
+                    <h1 class="text-4xl sm:text-5xl xl:text-6xl font-extrabold tracking-tight text-brand-navy leading-[1.15]">
+                        La inteligencia artificial al servicio de la <span class="gradient-text-purple">gestión docente.</span>
+                    </h1>
+
+                    <p class="text-lg sm:text-xl text-brand-muted font-normal leading-relaxed max-w-xl">
+                        Transforma las reuniones con representantes en actas profesionales, evidencias institucionales y acuerdos verificables en tiempo real.
+                    </p>
+
+                    <!-- CTAs -->
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
+                        <button onclick="openDemoModal()" class="px-8 py-4 rounded-full bg-brand-navy hover:bg-brand-purple text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-brand-navy/10 hover:shadow-glow-purple text-center flex items-center justify-center gap-3">
+                            <span>Solicitar una demostración</span>
+                            <i class="fa-solid fa-chevron-right text-xs"></i>
+                        </button>
+                        <a href="#como-funciona" class="px-8 py-4 rounded-full bg-white hover:bg-gray-50 text-brand-dark border border-gray-200 font-semibold text-base transition-all duration-300 shadow-sm text-center flex items-center justify-center gap-2.5">
+                            <i class="fa-solid fa-circle-play text-brand-purple text-lg"></i>
+                            <span>Ver cómo funciona</span>
+                        </a>
+                    </div>
+
+                    <!-- Hero Live Metrics Grid -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 border-t border-gray-200/80">
+                        <div class="p-3 bg-white/60 rounded-2xl border border-gray-100">
+                            <div class="text-2xl font-bold text-brand-navy">+50,000</div>
+                            <div class="text-xs text-brand-muted font-medium mt-0.5">Actas generadas</div>
+                        </div>
+                        <div class="p-3 bg-white/60 rounded-2xl border border-gray-100">
+                            <div class="text-2xl font-bold text-brand-purple">&lt; 3 min</div>
+                            <div class="text-xs text-brand-muted font-medium mt-0.5">Tiempo promedio</div>
+                        </div>
+                        <div class="p-3 bg-white/60 rounded-2xl border border-gray-100">
+                            <div class="text-2xl font-bold text-brand-navy">100%</div>
+                            <div class="text-xs text-brand-muted font-medium mt-0.5">Reuniones registradas</div>
+                        </div>
+                        <div class="p-3 bg-white/60 rounded-2xl border border-gray-100">
+                            <div class="text-2xl font-bold text-brand-green flex items-center gap-1">
+                                <span class="w-2 h-2 rounded-full bg-brand-green"></span>
+                                <span>Real-time</span>
+                            </div>
+                            <div class="text-xs text-brand-muted font-medium mt-0.5">Generación activa</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Interactive AI Panel Mockup -->
+                <div class="lg:col-span-6">
+                    <div class="relative mx-auto max-w-lg lg:max-w-none">
+                        <!-- Glass Window Simulation Container -->
+                        <div class="glass-panel rounded-3xl p-5 sm:p-6 shadow-2xl border border-white/80 transition-all duration-500 hover:shadow-apple-hover">
+                            
+                            <!-- Window Bar -->
+                            <div class="flex items-center justify-between pb-4 mb-4 border-b border-gray-100">
+                                <div class="flex items-center space-x-2">
+                                    <span class="w-3 h-3 rounded-full bg-red-400 inline-block"></span>
+                                    <span class="w-3 h-3 rounded-full bg-yellow-400 inline-block"></span>
+                                    <span class="w-3 h-3 rounded-full bg-green-400 inline-block"></span>
+                                    <span class="ml-3 text-xs font-semibold text-gray-500 flex items-center gap-1.5">
+                                        <i class="fa-solid fa-lock text-[10px] text-brand-green"></i>
+                                        Sesión En Vivo: Lic. Ana Pérez | Representante: Sra. García
+                                    </span>
+                                </div>
+                                <span class="px-2.5 py-1 rounded-md bg-red-50 text-red-600 text-[11px] font-bold flex items-center gap-1.5 animate-pulse">
+                                    <span class="w-2 h-2 rounded-full bg-red-500"></span> GRABANDO
+                                </span>
+                            </div>
+
+                            <!-- Live Audio Transcription Block -->
+                            <div class="space-y-4">
+                                <div class="p-4 rounded-2xl bg-gradient-to-r from-purple-900/5 to-blue-900/5 border border-purple-100 flex items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-xl bg-brand-purple/10 text-brand-purple flex items-center justify-center">
+                                            <i class="fa-solid fa-microphone"></i>
+                                        </div>
+                                        <div>
+                                            <div class="text-xs font-bold text-brand-dark">Escucha inteligente activa</div>
+                                            <div class="text-[11px] text-brand-muted">Identificación multilocutor por IA</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-1 px-2">
+                                        <span class="bar"></span>
+                                        <span class="bar"></span>
+                                        <span class="bar"></span>
+                                        <span class="bar"></span>
+                                        <span class="bar"></span>
+                                    </div>
+                                </div>
+
+                                <!-- Dynamic Transcript Feed -->
+                                <div class="space-y-3 text-xs">
+                                    <!-- Speaker 1 -->
+                                    <div class="p-3 rounded-xl bg-white border border-gray-100 shadow-sm">
+                                        <div class="flex items-center justify-between mb-1">
+                                            <span class="font-bold text-brand-navy flex items-center gap-1.5">
+                                                <i class="fa-solid fa-chalkboard-user text-brand-blue"></i> Lic. Ana Pérez (Docente)
+                                            </span>
+                                            <span class="text-[10px] text-gray-400">10:14 AM</span>
+                                        </div>
+                                        <p class="text-gray-600">Revisamos los compromisos de acompañamiento académico para Juan en la asignatura de Matemática...</p>
+                                    </div>
+
+                                    <!-- Speaker 2 -->
+                                    <div class="p-3 rounded-xl bg-purple-50/50 border border-purple-100 shadow-sm">
+                                        <div class="flex items-center justify-between mb-1">
+                                            <span class="font-bold text-brand-purple flex items-center gap-1.5">
+                                                <i class="fa-solid fa-user-group text-brand-purple"></i> Sra. García (Representante)
+                                            </span>
+                                            <span class="text-[10px] text-gray-400">10:15 AM</span>
+                                        </div>
+                                        <p class="text-gray-600">Me comprometo a revisar diariamente la agenda escolar y asegurar 45 minutos de refuerzo en casa.</p>
+                                    </div>
+
+                                    <!-- Agreement Detection Badge -->
+                                    <div class="p-3 rounded-xl bg-emerald-50 border border-emerald-200 flex items-start gap-3">
+                                        <div class="w-7 h-7 rounded-lg bg-brand-green text-white flex items-center justify-center flex-shrink-0 mt-0.5">
+                                            <i class="fa-solid fa-check text-xs"></i>
+                                        </div>
+                                        <div>
+                                            <div class="text-xs font-bold text-emerald-900 flex items-center gap-2">
+                                                <span>ACUERDO DETECTADO AUTOMÁTICAMENTE</span>
+                                                <span class="px-2 py-0.5 rounded bg-emerald-200 text-emerald-800 text-[9px]">Confianza 99%</span>
+                                            </div>
+                                            <p class="text-[11px] text-emerald-700 mt-0.5">Compromiso de acompañamiento diario y revisión de tareas por la representante.</p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Normative Auto-Check -->
+                                    <div class="p-3 rounded-xl bg-blue-50/80 border border-blue-200 flex items-center justify-between">
+                                        <div class="flex items-center gap-2">
+                                            <i class="fa-solid fa-scale-balanced text-brand-blue"></i>
+                                            <span class="text-[11px] font-semibold text-brand-navy">Revisión normativa LOEI: Cumplimiento institucional garantizado</span>
+                                        </div>
+                                        <span class="text-[10px] text-brand-blue font-bold">Verificado</span>
+                                    </div>
+                                </div>
+
+                                <!-- Floating Status Action Bar -->
+                                <div class="pt-2 flex items-center justify-between">
+                                    <button class="px-4 py-2 rounded-xl bg-brand-purple text-white font-semibold text-xs flex items-center gap-2 shadow-md hover:opacity-90 transition-opacity">
+                                        <i class="fa-solid fa-file-signature"></i>
+                                        <span>Generar Acta Final</span>
+                                    </button>
+                                    <span class="text-[11px] text-gray-400 flex items-center gap-1">
+                                        <i class="fa-solid fa-cloud-arrow-up text-brand-green"></i> Guardado automático
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: EL PROBLEMA (Antes vs Después) -->
+    <section id="caracteristicas" class="py-20 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <span class="px-3 py-1 rounded-full bg-red-100 text-red-700 text-xs font-bold uppercase tracking-wider">Transformación Administrativa</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-brand-navy">
+                    La carga administrativa también forma parte del trabajo docente.
+                </h2>
+                <p class="text-brand-muted text-base sm:text-lg">
+                    Descubre cómo ACTA PRO elimina la fricción, reduce las horas perdidas y blinda jurídicamente la labor educativa.
+                </p>
+            </div>
+
+            <!-- Comparison Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+                
+                <!-- Card Antes -->
+                <div class="p-8 rounded-3xl bg-gray-50 border border-gray-200 flex flex-col justify-between hover:border-gray-300 transition-all">
+                    <div>
+                        <div class="flex items-center justify-between mb-6">
+                            <span class="px-3 py-1 rounded-lg bg-red-100 text-red-700 text-xs font-bold">ANTES DE ACTA PRO</span>
+                            <i class="fa-solid fa-circle-xmark text-2xl text-red-400"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Gestión manual y desgastante</h3>
+                        
+                        <ul class="space-y-4 text-sm text-gray-600">
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-xmark text-red-500 mt-1"></i>
+                                <span><strong>Notas manuscritas e incompletas:</strong> Dificultad para registrar cada detalle crítico mientras se atiende al representante.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-xmark text-red-500 mt-1"></i>
+                                <span><strong>Grabaciones no estructuradas:</strong> Horas escuchando audios para transcribir acuerdos manualmente.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-xmark text-red-500 mt-1"></i>
+                                <span><strong>Documentos dispersos:</strong> Archivos en papel o carpetas locales sin respaldo institucional centralizado.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-xmark text-red-500 mt-1"></i>
+                                <span><strong>Elaboración manual exhaustiva:</strong> Redacción extenuante fuera del horario de clases.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-xmark text-red-500 mt-1"></i>
+                                <span><strong>Riesgo de omitir información:</strong> Omisiones involuntarias de compromisos que generan disputas futuras.</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="mt-8 pt-4 border-t border-gray-200 text-xs text-red-600 font-semibold flex items-center gap-2">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <span>Inseguridad jurídica y sobrecarga laboral docente</span>
+                    </div>
+                </div>
+
+                <!-- Card Después -->
+                <div class="p-8 rounded-3xl bg-gradient-to-br from-brand-navy via-slate-900 to-brand-purple text-white flex flex-col justify-between shadow-xl relative overflow-hidden">
+                    <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-brand-purple/20 rounded-full blur-2xl pointer-events-none"></div>
+                    <div>
+                        <div class="flex items-center justify-between mb-6">
+                            <span class="px-3 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-bold">DESPUÉS DE ACTA PRO</span>
+                            <i class="fa-solid fa-circle-check text-2xl text-brand-green"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-4">Automatización inteligente y seguridad</h3>
+                        
+                        <ul class="space-y-4 text-sm text-gray-200">
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-check text-brand-green mt-1"></i>
+                                <span><strong>Reuniones registradas con precisión:</strong> Captura objetiva del diálogo mediante inteligencia artificial especializada.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-check text-brand-green mt-1"></i>
+                                <span><strong>Evidencias organizadas al instante:</strong> Repositorio vinculado directamente al expediente del estudiante.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-check text-brand-green mt-1"></i>
+                                <span><strong>Actas profesionales instantáneas:</strong> Formato institucional estandarizado con redacción objetiva y legal.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-check text-brand-green mt-1"></i>
+                                <span><strong>Seguimiento automatizado:</strong> Notificaciones directas al representante con firma de conformidad.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-check text-brand-green mt-1"></i>
+                                <span><strong>Respaldo institucional total:</strong> Trazabilidad inalterable ante cualquier auditoría educativa.</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="mt-8 pt-4 border-t border-white/10 text-xs text-brand-green font-semibold flex items-center gap-2">
+                        <i class="fa-solid fa-shield-check"></i>
+                        <span>Protección integral, ahorro de tiempo y paz mental</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: CÓMO FUNCIONA (Workflow Horizontal de 9 Pasos) -->
+    <section id="como-funciona" class="py-20 bg-brand-bg relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <span class="px-3 py-1 rounded-full bg-brand-purpleLight text-brand-purple text-xs font-bold uppercase tracking-wider">Flujo Automatizado</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-brand-navy">
+                    De la reunión al acta firmada en 9 sencillos pasos.
+                </h2>
+                <p class="text-brand-muted text-base">
+                    Un proceso fluido, sin fricciones e integrado con las herramientas institucionales que ya utilizas.
+                </p>
+            </div>
+
+            <!-- Horizontal Stepper Carousel / Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <!-- Step 1 -->
+                <div class="glass-panel p-6 rounded-2xl hover:shadow-lg transition-all border border-gray-100 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="w-8 h-8 rounded-full bg-brand-purple/10 text-brand-purple font-bold text-sm flex items-center justify-center">01</span>
+                            <i class="fa-solid fa-address-book text-brand-purple text-xl"></i>
+                        </div>
+                        <h4 class="font-bold text-brand-navy mb-2">Contacto mediante Runachay</h4>
+                        <p class="text-xs text-brand-muted">Sincronización directa de fichas estudiantiles, antecedentes y datos del representante.</p>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="glass-panel p-6 rounded-2xl hover:shadow-lg transition-all border border-gray-100 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="w-8 h-8 rounded-full bg-brand-blue/10 text-brand-blue font-bold text-sm flex items-center justify-center">02</span>
+                            <i class="fa-solid fa-calendar-check text-brand-blue text-xl"></i>
+                        </div>
+                        <h4 class="font-bold text-brand-navy mb-2">Programación en Google Calendar</h4>
+                        <p class="text-xs text-brand-muted">Creación de cita automática con recordatorio y enlace seguro a la sesión.</p>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="glass-panel p-6 rounded-2xl hover:shadow-lg transition-all border border-gray-100 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="w-8 h-8 rounded-full bg-brand-navy/10 text-brand-navy font-bold text-sm flex items-center justify-center">03</span>
+                            <i class="fa-solid fa-file-invoice text-brand-navy text-xl"></i>
+                        </div>
+                        <h4 class="font-bold text-brand-navy mb-2">Extracción automática de información</h4>
+                        <p class="text-xs text-brand-muted">Precarga de historial previo, motivo de citación y acuerdos pendientes.</p>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="glass-panel p-6 rounded-2xl hover:shadow-lg transition-all border border-gray-100 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="w-8 h-8 rounded-full bg-brand-purple/10 text-brand-purple font-bold text-sm flex items-center justify-center">04</span>
+                            <i class="fa-solid fa-users-gear text-brand-purple text-xl"></i>
+                        </div>
+                        <h4 class="font-bold text-brand-navy mb-2">Configuración de participantes</h4>
+                        <p class="text-xs text-brand-muted">Verificación de asistencia del docente, tutor, representante y directivos.</p>
+                    </div>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="glass-panel p-6 rounded-2xl hover:shadow-lg transition-all border border-gray-100 flex flex-col justify-between ring-2 ring-brand-purple/20">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="w-8 h-8 rounded-full bg-brand-purple text-white font-bold text-sm flex items-center justify-center">05</span>
+                            <i class="fa-solid fa-microphone-lines text-brand-purple text-xl"></i>
+                        </div>
+                        <h4 class="font-bold text-brand-navy mb-2">Transcripción en tiempo real</h4>
+                        <p class="text-xs text-brand-muted">IA escucha, filtra ruido ambiental e identifica intervenciones de cada interlocutor.</p>
+                    </div>
+                </div>
+
+                <!-- Step 6 -->
+                <div class="glass-panel p-6 rounded-2xl hover:shadow-lg transition-all border border-gray-100 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="w-8 h-8 rounded-full bg-brand-blue/10 text-brand-blue font-bold text-sm flex items-center justify-center">06</span>
+                            <i class="fa-solid fa-wand-magic-sparkles text-brand-blue text-xl"></i>
+                        </div>
+                        <h4 class="font-bold text-brand-navy mb-2">Generación automática del acta</h4>
+                        <p class="text-xs text-brand-muted">Sintetización estructurada de hechos, observaciones, intervenciones y compromisos.</p>
+                    </div>
+                </div>
+
+                <!-- Step 7 -->
+                <div class="glass-panel p-6 rounded-2xl hover:shadow-lg transition-all border border-gray-100 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="w-8 h-8 rounded-full bg-brand-green/10 text-brand-green font-bold text-sm flex items-center justify-center">07</span>
+                            <i class="fa-solid fa-signature text-brand-green text-xl"></i>
+                        </div>
+                        <h4 class="font-bold text-brand-navy mb-2">Firma digital e inviolable</h4>
+                        <p class="text-xs text-brand-muted">Validación por ambas partes mediante token seguro o firma táctil en dispositivo.</p>
+                    </div>
+                </div>
+
+                <!-- Step 8 -->
+                <div class="glass-panel p-6 rounded-2xl hover:shadow-lg transition-all border border-gray-100 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="w-8 h-8 rounded-full bg-brand-navy/10 text-brand-navy font-bold text-sm flex items-center justify-center">08</span>
+                            <i class="fa-solid fa-folder-tree text-brand-navy text-xl"></i>
+                        </div>
+                        <h4 class="font-bold text-brand-navy mb-2">Clasificación automática</h4>
+                        <p class="text-xs text-brand-muted">Archivado instantáneo en la carpeta inteligente del alumno correspondiente.</p>
+                    </div>
+                </div>
+
+                <!-- Step 9 -->
+                <div class="glass-panel p-6 rounded-2xl hover:shadow-lg transition-all border border-gray-100 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="w-8 h-8 rounded-full bg-brand-green/10 text-brand-green font-bold text-sm flex items-center justify-center">09</span>
+                            <i class="fa-solid fa-paper-plane text-brand-green text-xl"></i>
+                        </div>
+                        <h4 class="font-bold text-brand-navy mb-2">Envío al representante</h4>
+                        <p class="text-xs text-brand-muted">Notificación por correo electrónico y WhatsApp con copia firmada en PDF.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: PROTECCIÓN DOCENTE (Protección Inteligente del Lenguaje) -->
+    <section id="proteccion" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <span class="px-3 py-1 rounded-full bg-brand-purpleLight text-brand-purple text-xs font-bold uppercase tracking-wider">Módulo Exclusivo</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-brand-navy">
+                    Protección inteligente del lenguaje.
+                </h2>
+                <p class="text-brand-muted text-base">
+                    La IA de ACTA PRO detecta y reformula expresiones subjetivas o potencialmente conflictivas antes de la firma del documento.
+                </p>
+            </div>
+
+            <!-- Interactive Language Protection Simulator Box -->
+            <div class="max-w-4xl mx-auto glass-panel rounded-3xl p-6 sm:p-10 border border-gray-200 shadow-xl">
+                
+                <!-- Scenario Selector Tabs -->
+                <div class="flex flex-wrap gap-2 mb-8 pb-4 border-b border-gray-200">
+                    <span class="text-xs font-bold text-brand-navy self-center mr-2">Probar escenarios:</span>
+                    <button onclick="switchScenario(1)" id="scen-btn-1" class="px-4 py-2 rounded-xl text-xs font-semibold bg-brand-purple text-white shadow-sm">Escenario 1: Falta de apoyo</button>
+                    <button onclick="switchScenario(2)" id="scen-btn-2" class="px-4 py-2 rounded-xl text-xs font-semibold bg-gray-100 text-brand-dark hover:bg-gray-200">Escenario 2: Incumplimiento</button>
+                    <button onclick="switchScenario(3)" id="scen-btn-3" class="px-4 py-2 rounded-xl text-xs font-semibold bg-gray-100 text-brand-dark hover:bg-gray-200">Escenario 3: Conducta</button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    
+                    <!-- Original Input -->
+                    <div class="p-5 rounded-2xl bg-red-50/60 border border-red-200 space-y-3">
+                        <div class="flex items-center justify-between text-xs font-bold text-red-700">
+                            <span class="flex items-center gap-1.5">
+                                <i class="fa-solid fa-triangle-exclamation"></i>
+                                Redacción Original (Subjetiva)
+                            </span>
+                            <span class="px-2 py-0.5 rounded bg-red-200 text-red-800 text-[10px]">Riesgo Legal</span>
+                        </div>
+                        <p id="scenario-original" class="text-sm font-medium text-red-900 leading-relaxed bg-white/80 p-3.5 rounded-xl border border-red-100">
+                            “No existe colaboración por parte del representante.”
+                        </p>
+                    </div>
+
+                    <!-- AI Neutralized Output -->
+                    <div class="p-5 rounded-2xl bg-purple-50/70 border border-purple-200 space-y-3">
+                        <div class="flex items-center justify-between text-xs font-bold text-brand-purple">
+                            <span class="flex items-center gap-1.5">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                Sugerencia ACTA PRO (Objetiva)
+                            </span>
+                            <span class="px-2 py-0.5 rounded bg-purple-200 text-brand-purple text-[10px]">Institucional</span>
+                        </div>
+                        <p id="scenario-suggestion" class="text-sm font-medium text-brand-navy leading-relaxed bg-white p-3.5 rounded-xl border border-purple-100 shadow-sm">
+                            “Se identifica la necesidad de fortalecer la comunicación y el acompañamiento entre la familia y la institución educativa.”
+                        </p>
+                    </div>
+
+                </div>
+
+                <!-- AI Technical Explanation Footer Box -->
+                <div class="mt-6 p-4 rounded-2xl bg-brand-navy/5 border border-brand-navy/10 flex items-start gap-3">
+                    <div class="w-8 h-8 rounded-xl bg-brand-navy text-white flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <i class="fa-solid fa-lightbulb text-xs"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs font-bold text-brand-navy block">Análisis Jurídico-Educativo de ACTA PRO</span>
+                        <p id="scenario-explanation" class="text-xs text-brand-muted mt-1 leading-relaxed">
+                            La expresión original podría interpretarse como un juicio de valor. Se recomienda una redacción objetiva basada en hechos verificables que mantenga la cordialidad y el rigor formal.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECTION: PANEL INTERACTIVO (Simulador Completo de App) -->
+    <section class="py-20 bg-brand-bg relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-12 space-y-4">
+                <span class="px-3 py-1 rounded-full bg-brand-blue/10 text-brand-blue text-xs font-bold uppercase tracking-wider">Experiencia Inmersiva</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-brand-navy">
+                    Explora la interfaz de ACTA PRO.
+                </h2>
+                <p class="text-brand-muted text-base">
+                    Diseñada para la máxima productividad docente con la sobriedad y sencillez de un sistema de alta gama.
+                </p>
+            </div>
+
+            <!-- Full App Mock Window -->
+            <div class="glass-panel rounded-3xl overflow-hidden shadow-2xl border border-gray-200 max-w-5xl mx-auto">
+                
+                <!-- App Header -->
+                <div class="bg-slate-900 text-white px-6 py-4 flex items-center justify-between border-b border-slate-800">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 rounded-lg bg-brand-purple flex items-center justify-center font-bold text-xs">AP</div>
+                        <span class="font-bold text-sm tracking-tight">ACTA PRO Dashboard v2.4</span>
+                    </div>
+                    
+                    <!-- Search Input -->
+                    <div class="relative w-64 hidden sm:block">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-xs text-slate-400"></i>
+                        <input type="text" id="studentSearch" onkeyup="filterAppList()" placeholder="Buscar por estudiante..." class="w-full bg-slate-800 text-xs text-white pl-8 pr-3 py-1.5 rounded-lg border border-slate-700 focus:outline-none focus:border-brand-purple">
+                    </div>
+
+                    <div class="flex items-center space-x-3 text-xs">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                        <span class="text-slate-300">Unidad Educativa San Francisco</span>
+                    </div>
+                </div>
+
+                <!-- App Body (Sidebar + Content) -->
+                <div class="grid grid-cols-1 md:grid-cols-12 min-h-[420px]">
+                    
+                    <!-- App Sidebar -->
+                    <div class="md:col-span-3 bg-slate-800/40 border-r border-gray-200/50 p-4 space-y-2 text-xs font-medium">
+                        <button class="w-full text-left px-3 py-2.5 rounded-xl bg-brand-purple text-white flex items-center gap-2.5 font-semibold shadow-sm">
+                            <i class="fa-solid fa-house"></i> Próximas reuniones
+                        </button>
+                        <button class="w-full text-left px-3 py-2.5 rounded-xl text-gray-600 hover:bg-gray-100 flex items-center gap-2.5">
+                            <i class="fa-solid fa-clock-rotate-left"></i> Actas pendientes
+                        </button>
+                        <button class="w-full text-left px-3 py-2.5 rounded-xl text-gray-600 hover:bg-gray-100 flex items-center gap-2.5">
+                            <i class="fa-solid fa-box-archive"></i> Repositorio documental
+                        </button>
+                        <button class="w-full text-left px-3 py-2.5 rounded-xl text-gray-600 hover:bg-gray-100 flex items-center gap-2.5">
+                            <i class="fa-solid fa-chart-line"></i> Seguimientos
+                        </button>
+                        <button class="w-full text-left px-3 py-2.5 rounded-xl text-gray-600 hover:bg-gray-100 flex items-center gap-2.5">
+                            <i class="fa-solid fa-calendar"></i> Calendario
+                        </button>
+                    </div>
+
+                    <!-- Main Dashboard Content -->
+                    <div class="md:col-span-9 p-6 space-y-6 bg-white">
+                        
+                        <!-- Next Meeting Card -->
+                        <div class="p-5 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                            <div class="space-y-1">
+                                <span class="px-2 py-0.5 rounded bg-blue-200 text-blue-900 text-[10px] font-bold">HOY - 11:30 AM</span>
+                                <h4 class="font-bold text-brand-navy text-sm">Reunión de Refuerzo Académico: Mateo Torres</h4>
+                                <p class="text-xs text-brand-muted">Representante: Carlos Torres (Padre de familia)</p>
+                            </div>
+                            <button onclick="alert('Iniciando simulador de reunión con ACTA PRO...')" class="px-4 py-2 rounded-xl bg-brand-blue text-white text-xs font-semibold hover:bg-blue-700 transition-colors shadow-sm flex items-center gap-2">
+                                <i class="fa-solid fa-video"></i> Iniciar Sesión con IA
+                            </button>
+                        </div>
+
+                        <!-- Active Scheduled List -->
+                        <div>
+                            <h5 class="text-xs font-bold text-brand-navy mb-3 uppercase tracking-wider">Reuniones Programadas y Expedientes</h5>
+                            
+                            <div class="space-y-2.5 text-xs" id="appStudentList">
+                                
+                                <div class="student-row p-3.5 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-between hover:bg-purple-50/40 transition-colors">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-full bg-brand-purple/10 text-brand-purple flex items-center justify-center font-bold">JP</div>
+                                        <div>
+                                            <div class="font-bold text-brand-navy">Juan Pérez López</div>
+                                            <div class="text-[11px] text-brand-muted">3 Actas firmadas • Rendimiento Escolar</div>
+                                        </div>
+                                    </div>
+                                    <span class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">Al día</span>
+                                </div>
+
+                                <div class="student-row p-3.5 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-between hover:bg-purple-50/40 transition-colors">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-full bg-brand-blue/10 text-brand-blue flex items-center justify-center font-bold">MG</div>
+                                        <div>
+                                            <div class="font-bold text-brand-navy">María García</div>
+                                            <div class="text-[11px] text-brand-muted">2 Actas firmadas • Seguimiento Conductual</div>
+                                        </div>
+                                    </div>
+                                    <span class="px-2.5 py-1 rounded-full bg-yellow-100 text-yellow-800 text-[10px] font-bold">Pendiente Firma</span>
+                                </div>
+
+                                <div class="student-row p-3.5 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-between hover:bg-purple-50/40 transition-colors">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-full bg-gray-200 text-gray-700 flex items-center justify-center font-bold">PT</div>
+                                        <div>
+                                            <div class="font-bold text-brand-navy">Pedro Torres</div>
+                                            <div class="text-[11px] text-brand-muted">1 Acta firmada • Reunión Informativa</div>
+                                        </div>
+                                    </div>
+                                    <span class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">Al día</span>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECTION: REPOSOTORIO INTELIGENTE (Interactive Folder Tree) -->
+    <section class="py-20 bg-white border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <span class="px-3 py-1 rounded-full bg-brand-greenLight text-brand-green text-xs font-bold uppercase tracking-wider">Organización Automática</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-brand-navy">
+                    Repositorio inteligente y ordenado por estudiante.
+                </h2>
+                <p class="text-brand-muted text-base">
+                    Olvídate de buscar archivos perdidos. Cada acta, evidencia y acuerdo se clasifica automáticamente en la estructura de la institución.
+                </p>
+            </div>
+
+            <!-- Folder Tree UI Component -->
+            <div class="max-w-3xl mx-auto glass-panel p-6 sm:p-8 rounded-3xl border border-gray-200 shadow-xl font-mono text-xs">
+                
+                <div class="flex items-center justify-between pb-4 mb-4 border-b border-gray-200 font-sans">
+                    <span class="font-bold text-brand-navy flex items-center gap-2">
+                        <i class="fa-solid fa-folder-tree text-brand-purple"></i>
+                        Estructura de Almacenamiento Institucional
+                    </span>
+                    <span class="text-[11px] text-brand-muted">Haga clic en las carpetas para desplegar</span>
+                </div>
+
+                <!-- Tree Root -->
+                <div class="space-y-2 select-none">
+                    <!-- Root Folder Docente -->
+                    <div class="tree-item p-2 rounded-lg flex items-center gap-2 font-bold text-brand-navy cursor-pointer" onclick="toggleFolder('folder-ana')">
+                        <i id="icon-ana" class="fa-solid fa-folder-open text-amber-500 text-sm"></i>
+                        <span>📁 Docente: Ana Pérez</span>
+                        <span class="ml-auto text-[10px] text-gray-400 font-sans font-normal">3 Estudiantes asignados</span>
+                    </div>
+
+                    <!-- Level 1: Juan Pérez López -->
+                    <div id="folder-ana" class="pl-6 space-y-1 border-l-2 border-gray-100 ml-3">
+                        
+                        <div class="tree-item p-1.5 rounded-lg flex items-center gap-2 text-gray-800 cursor-pointer" onclick="toggleFolder('folder-juan')">
+                            <i id="icon-juan" class="fa-solid fa-folder-open text-amber-400"></i>
+                            <span class="font-semibold">├── Juan Pérez López</span>
+                        </div>
+                        
+                        <div id="folder-juan" class="pl-8 space-y-1 text-gray-600">
+                            <div class="p-1 rounded hover:bg-gray-100 flex items-center gap-2">
+                                <i class="fa-solid fa-file-pdf text-red-500"></i>
+                                <span>│ ├── Seguimiento académico.pdf</span>
+                                <span class="ml-auto text-[10px] text-emerald-600 font-sans">Firmado</span>
+                            </div>
+                            <div class="p-1 rounded hover:bg-gray-100 flex items-center gap-2">
+                                <i class="fa-solid fa-file-lines text-brand-blue"></i>
+                                <span>│ ├── Rendimiento escolar.docx</span>
+                            </div>
+                            <div class="p-1 rounded hover:bg-gray-100 flex items-center gap-2">
+                                <i class="fa-solid fa-file-shield text-brand-purple"></i>
+                                <span>│ └── Reunión informativa_12Oct.pdf</span>
+                                <span class="ml-auto text-[10px] text-emerald-600 font-sans">Verificado</span>
+                            </div>
+                        </div>
+
+                        <!-- Level 1: María García -->
+                        <div class="tree-item p-1.5 rounded-lg flex items-center gap-2 text-gray-800 cursor-pointer" onclick="toggleFolder('folder-maria')">
+                            <i id="icon-maria" class="fa-solid fa-folder-open text-amber-400"></i>
+                            <span class="font-semibold">├── María García</span>
+                        </div>
+
+                        <div id="folder-maria" class="pl-8 space-y-1 text-gray-600">
+                            <div class="p-1 rounded hover:bg-gray-100 flex items-center gap-2">
+                                <i class="fa-solid fa-file-pdf text-red-500"></i>
+                                <span>│ ├── Seguimiento conductual.pdf</span>
+                            </div>
+                            <div class="p-1 rounded hover:bg-gray-100 flex items-center gap-2">
+                                <i class="fa-solid fa-file-lines text-brand-blue"></i>
+                                <span>│ ├── Refuerzo académico.docx</span>
+                            </div>
+                            <div class="p-1 rounded hover:bg-gray-100 flex items-center gap-2">
+                                <i class="fa-solid fa-file-signature text-brand-green"></i>
+                                <span>│ └── Acuerdos familiares_Firmado.pdf</span>
+                            </div>
+                        </div>
+
+                        <!-- Level 1: Pedro Torres -->
+                        <div class="tree-item p-1.5 rounded-lg flex items-center gap-2 text-gray-800 cursor-pointer" onclick="toggleFolder('folder-pedro')">
+                            <i id="icon-pedro" class="fa-solid fa-folder-open text-amber-400"></i>
+                            <span class="font-semibold">└── Pedro Torres</span>
+                        </div>
+
+                        <div id="folder-pedro" class="pl-8 space-y-1 text-gray-600">
+                            <div class="p-1 rounded hover:bg-gray-100 flex items-center gap-2">
+                                <i class="fa-solid fa-file-pdf text-red-500"></i>
+                                <span>  ├── Seguimiento mensual.pdf</span>
+                            </div>
+                            <div class="p-1 rounded hover:bg-gray-100 flex items-center gap-2">
+                                <i class="fa-solid fa-file-contract text-brand-purple"></i>
+                                <span>  └── Acuerdos de acompañamiento.pdf</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECTION: SEGURIDAD (Tarjetas con Iconografía Moderna) -->
+    <section id="seguridad" class="py-20 bg-brand-navy text-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <span class="px-3 py-1 rounded-full bg-white/10 text-brand-green text-xs font-bold uppercase tracking-wider">Protección de Datos</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold">
+                    Seguridad institucional y cumplimiento legal.
+                </h2>
+                <p class="text-gray-300 text-base">
+                    Diseñado conforme a los estándares más estrictos de privacidad y protección de la información educativa.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Card 1 -->
+                <div class="p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-brand-purple/50 transition-all hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-xl bg-brand-purple/20 text-brand-purple flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                    <h4 class="text-lg font-bold mb-2">Datos cifrados</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">Cifrado de grado bancario AES-256 tanto en tránsito como en reposo para toda la información almacenada.</p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-brand-purple/50 transition-all hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-xl bg-brand-blue/20 text-brand-blue flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-user-shield"></i>
+                    </div>
+                    <h4 class="text-lg font-bold mb-2">Control de acceso (RBAC)</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">Permisos segmentados por rol para docentes, tutores, orientadores y autoridades institucionales.</p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-brand-purple/50 transition-all hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-xl bg-brand-green/20 text-brand-green flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                    </div>
+                    <h4 class="text-lg font-bold mb-2">Auditoría e Historial</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">Registro inalterable de cada modificación, consulta y firma de acta para transparencia absoluta.</p>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-brand-purple/50 transition-all hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-shield-cat"></i>
+                    </div>
+                    <h4 class="text-lg font-bold mb-2">Protección de Datos</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">Cumplimiento irrestricto de la Ley Orgánica de Protección de Datos Personales de la comunidad educativa.</p>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-brand-purple/50 transition-all hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                    </div>
+                    <h4 class="text-lg font-bold mb-2">Copias de seguridad</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">Respaldos automatizados y georedundantes para garantizar disponibilidad constante sin pérdida de información.</p>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-brand-purple/50 transition-all hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-key"></i>
+                    </div>
+                    <h4 class="text-lg font-bold mb-2">Accesos autorizados</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">Autenticación de doble factor (2FA) e integración Single Sign-On (SSO) con Google Workspace y Microsoft 365.</p>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECTION: TESTIMONIOS Y ESTADÍSTICAS -->
+    <section class="py-20 bg-brand-bg relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+            
+            <!-- Dynamic Stats Bar -->
+            <div class="glass-panel p-8 rounded-3xl border border-gray-200 shadow-lg grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div>
+                    <div class="text-3xl sm:text-4xl font-extrabold text-brand-purple">&lt; 3 min</div>
+                    <div class="text-xs text-brand-muted font-medium mt-1">Tiempo promedio de generación</div>
+                </div>
+                <div>
+                    <div class="text-3xl sm:text-4xl font-extrabold text-brand-navy">98%</div>
+                    <div class="text-xs text-brand-muted font-medium mt-1">Acuerdos identificados con precisión</div>
+                </div>
+                <div>
+                    <div class="text-3xl sm:text-4xl font-extrabold text-brand-green">-75%</div>
+                    <div class="text-xs text-brand-muted font-medium mt-1">Reducción del tiempo administrativo</div>
+                </div>
+                <div>
+                    <div class="text-3xl sm:text-4xl font-extrabold text-brand-blue">100%</div>
+                    <div class="text-xs text-brand-muted font-medium mt-1">Actas clasificadas automáticamente</div>
+                </div>
+            </div>
+
+            <!-- Testimonials Heading -->
+            <div class="text-center max-w-3xl mx-auto space-y-4">
+                <span class="px-3 py-1 rounded-full bg-brand-purpleLight text-brand-purple text-xs font-bold uppercase tracking-wider">Testimonios</span>
+                <h2 class="text-3xl font-extrabold text-brand-navy">Lo que dicen los docentes.</h2>
+            </div>
+
+            <!-- Testimonials Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <div class="p-6 rounded-2xl bg-white border border-gray-100 shadow-sm flex flex-col justify-between space-y-4">
+                    <p class="text-xs text-gray-600 leading-relaxed italic">
+                        “ACTA PRO transformó mi día a día. Antes pasaba hasta una hora redactando el acta de cada reunión difícil. Ahora terminamos la sesión y el acta ya está lista para firma.”
+                    </p>
+                    <div class="flex items-center gap-3 pt-2 border-t border-gray-50">
+                        <div class="w-9 h-9 rounded-full bg-purple-100 text-brand-purple flex items-center justify-center font-bold text-xs">AP</div>
+                        <div>
+                            <div class="text-xs font-bold text-brand-navy">Lic. Ana María Pérez</div>
+                            <div class="text-[10px] text-brand-muted">Docente de Bachillerato • Quito</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-6 rounded-2xl bg-white border border-gray-100 shadow-sm flex flex-col justify-between space-y-4">
+                    <p class="text-xs text-gray-600 leading-relaxed italic">
+                        “La función de reescritura objetiva me da total tranquilidad. Me protege contra malos entendidos y garantiza que todo lo escrito sea estrictamente institucional.”
+                    </p>
+                    <div class="flex items-center gap-3 pt-2 border-t border-gray-50">
+                        <div class="w-9 h-9 rounded-full bg-blue-100 text-brand-blue flex items-center justify-center font-bold text-xs">CS</div>
+                        <div>
+                            <div class="text-xs font-bold text-brand-navy">Msc. Carlos Silva</div>
+                            <div class="text-[10px] text-brand-muted">Coordinador DECE • Guayaquil</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-6 rounded-2xl bg-white border border-gray-100 shadow-sm flex flex-col justify-between space-y-4">
+                    <p class="text-xs text-gray-600 leading-relaxed italic">
+                        “El repositorio inteligente nos ahorró auditorías complejas. Buscar el historial completo de un estudiante toma literalmente dos segundos.”
+                    </p>
+                    <div class="flex items-center gap-3 pt-2 border-t border-gray-50">
+                        <div class="w-9 h-9 rounded-full bg-emerald-100 text-brand-green flex items-center justify-center font-bold text-xs">LM</div>
+                        <div>
+                            <div class="text-xs font-bold text-brand-navy">Dra. Lucía Mendoza</div>
+                            <div class="text-[10px] text-brand-muted">Rectora Institucional • Cuenca</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CALL TO ACTION (CTA BANNER) -->
+    <section class="py-20 bg-white relative">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="p-10 sm:p-16 rounded-3xl bg-gradient-to-tr from-brand-navy via-slate-900 to-brand-purple text-white text-center shadow-2xl relative overflow-hidden">
+                <div class="absolute -left-10 -top-10 w-64 h-64 bg-brand-purple/30 rounded-full blur-3xl pointer-events-none"></div>
+                
+                <div class="relative z-10 max-w-2xl mx-auto space-y-6">
+                    <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">
+                        Transforma cada reunión en una evidencia institucional.
+                    </h2>
+                    <p class="text-gray-300 text-sm sm:text-base">
+                        Súmate a la revolución de la gestión docente con la tranquilidad, precisión y rapidez que solo ACTA PRO ofrece.
+                    </p>
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+                        <button onclick="openDemoModal()" class="w-full sm:w-auto px-8 py-4 rounded-full bg-white text-brand-navy font-bold text-sm hover:bg-gray-100 transition-all shadow-lg">
+                            Solicitar una demostración
+                        </button>
+                        <button onclick="openDemoModal()" class="w-full sm:w-auto px-8 py-4 rounded-full bg-brand-purple text-white font-bold text-sm hover:bg-purple-600 transition-all shadow-lg">
+                            Comenzar ahora
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-brand-navy text-white pt-16 pb-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+            
+            <!-- Motto Banner -->
+            <div class="p-6 rounded-2xl bg-white/5 border border-white/10 text-center max-w-3xl mx-auto space-y-2">
+                <span class="text-xs font-bold uppercase tracking-widest text-brand-purple">Lema Oficial ACTA PRO</span>
+                <p class="text-sm sm:text-base font-semibold italic text-gray-200">
+                    “Lo que se conversa se escucha. Lo que se acuerda se evidencia. Lo que se registra se protege.”
+                </p>
+            </div>
+
+            <!-- Footer Navigation Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-8 text-xs">
+                
+                <div class="col-span-2 space-y-4">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-lg bg-brand-purple flex items-center justify-center text-white">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <span class="font-extrabold text-lg text-white">ACTA PRO</span>
+                    </div>
+                    <p class="text-gray-400 text-xs leading-relaxed max-w-sm">
+                        Plataforma de inteligencia artificial para la protección docente, trazabilidad documental y seguridad institucional en unidades educativas.
+                    </p>
+                </div>
+
+                <div>
+                    <h5 class="font-bold text-white mb-3 uppercase tracking-wider text-[11px]">Plataforma</h5>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#inicio" class="hover:text-white">Inicio</a></li>
+                        <li><a href="#caracteristicas" class="hover:text-white">Características</a></li>
+                        <li><a href="#como-funciona" class="hover:text-white">Cómo funciona</a></li>
+                        <li><a href="#proteccion" class="hover:text-white">Protección Docente</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h5 class="font-bold text-white mb-3 uppercase tracking-wider text-[11px]">Seguridad</h5>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#seguridad" class="hover:text-white">Cifrado de datos</a></li>
+                        <li><a href="#seguridad" class="hover:text-white">Cumplimiento LOEI</a></li>
+                        <li><a href="#seguridad" class="hover:text-white">Protección de Datos</a></li>
+                        <li><a href="#seguridad" class="hover:text-white">Auditorías</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h5 class="font-bold text-white mb-3 uppercase tracking-wider text-[11px]">Soporte</h5>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" onclick="openDemoModal()" class="hover:text-white">Centro de ayuda</a></li>
+                        <li><a href="#" onclick="openDemoModal()" class="hover:text-white">Términos y condiciones</a></li>
+                        <li><a href="#" onclick="openDemoModal()" class="hover:text-white">Política de privacidad</a></li>
+                        <li><a href="#" onclick="openDemoModal()" class="hover:text-white">Contacto institucional</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 gap-4">
+                <span>© 2026 ACTA PRO Inc. Todos los derechos reservados.</span>
+                <div class="flex space-x-6">
+                    <a href="#" class="hover:text-gray-300"><i class="fa-brands fa-linkedin text-base"></i></a>
+                    <a href="#" class="hover:text-gray-300"><i class="fa-brands fa-x-twitter text-base"></i></a>
+                    <a href="#" class="hover:text-gray-300"><i class="fa-brands fa-youtube text-base"></i></a>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- DEMO REQUEST MODAL -->
+    <div id="demoModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-lg rounded-3xl p-6 sm:p-8 bg-white border border-gray-200 shadow-2xl relative animate-in fade-in zoom-in duration-200">
+            
+            <button onclick="closeDemoModal()" class="absolute top-5 right-5 text-gray-400 hover:text-gray-700">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div class="space-y-2 mb-6">
+                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-purpleLight text-brand-purple text-xs font-bold">
+                    <i class="fa-solid fa-rocket"></i> Demostración Personalizada
+                </div>
+                <h3 class="text-2xl font-bold text-brand-navy">Solicita tu demostración de ACTA PRO</h3>
+                <p class="text-xs text-brand-muted">Descubre cómo implementar la plataforma en tu institución educativa.</p>
+            </div>
+
+            <form onsubmit="handleDemoSubmit(event)" class="space-y-4 text-xs">
+                <div>
+                    <label class="block font-semibold text-brand-navy mb-1">Nombre Completo</label>
+                    <input type="text" required placeholder="Ej. Ana Pérez" class="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:outline-none focus:border-brand-purple">
+                </div>
+
+                <div>
+                    <label class="block font-semibold text-brand-navy mb-1">Correo Institucional</label>
+                    <input type="email" required placeholder="ejemplo@unidadeducativa.edu.ec" class="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:outline-none focus:border-brand-purple">
+                </div>
+
+                <div>
+                    <label class="block font-semibold text-brand-navy mb-1">Institución Educativa</label>
+                    <input type="text" required placeholder="Ej. Unidad Educativa San Francisco" class="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:outline-none focus:border-brand-purple">
+                </div>
+
+                <div>
+                    <label class="block font-semibold text-brand-navy mb-1">Cargo</label>
+                    <select class="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:outline-none focus:border-brand-purple bg-white">
+                        <option>Docente / Tutor</option>
+                        <option>Coordinador DECE</option>
+                        <option>Rector(a) / Director(a)</option>
+                        <option>Administrativo</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="w-full py-3 rounded-xl bg-brand-navy hover:bg-brand-purple text-white font-bold text-sm transition-colors shadow-lg mt-2">
+                    Enviar Solicitud
+                </button>
+            </form>
+
+            <div id="demoSuccessMessage" class="hidden mt-4 p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-medium text-center">
+                <i class="fa-solid fa-circle-check text-base block mb-1"></i>
+                ¡Gracias! Nos pondremos en contacto contigo en breve para programar la demostración.
+            </div>
+
+        </div>
+    </div>
+
+    <!-- INTERACTIVE JAVASCRIPT CODE -->
+    <script>
+        /* Mobile Menu Toggle */
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        /* Modal Toggle Functions */
+        function openDemoModal() {
+            document.getElementById('demoModal').classList.remove('hidden');
+        }
+
+        function closeDemoModal() {
+            document.getElementById('demoModal').classList.add('hidden');
+            document.getElementById('demoSuccessMessage').classList.add('hidden');
+        }
+
+        function handleDemoSubmit(e) {
+            e.preventDefault();
+            document.getElementById('demoSuccessMessage').classList.remove('hidden');
+            setTimeout(() => {
+                closeDemoModal();
+            }, 2500);
+        }
+
+        /* Language Protection Simulator Data & Scenario Switcher */
+        const scenarios = {
+            1: {
+                original: '“No existe colaboración por parte del representante.”',
+                suggestion: '“Se identifica la necesidad de fortalecer la comunicación y el acompañamiento entre la familia y la institución educativa.”',
+                explanation: 'La expresión original podría interpretarse como un juicio de valor. Se recomienda una redacción objetiva basada en hechos verificables.'
+            },
+            2: {
+                original: '“El representante demuestra desinterés en el avance del alumno.”',
+                suggestion: '“Se acuerda establecer una hoja de ruta con entregables semanales para dar seguimiento continuo al progreso académico.”',
+                explanation: 'Se sustituye una presunción subjetiva de desinterés por un acuerdo operativo concreto que compromete formalmente a ambas partes.'
+            },
+            3: {
+                original: '“El estudiante presenta conducta agresiva e incontrolable en el aula.”',
+                suggestion: '“Se observan episodios de impulsividad durante las actividades grupales, recomendándose acompañamiento con el departamento DECE.”',
+                explanation: 'Se utiliza un lenguaje descriptivo técnico aprobable normativamente, evitando etiquetas estigmatizantes sobre el estudiante.'
+            }
+        };
+
+        function switchScenario(num) {
+            // Update button styles
+            for (let i = 1; i <= 3; i++) {
+                const btn = document.getElementById(`scen-btn-${i}`);
+                if (i === num) {
+                    btn.className = 'px-4 py-2 rounded-xl text-xs font-semibold bg-brand-purple text-white shadow-sm';
+                } else {
+                    btn.className = 'px-4 py-2 rounded-xl text-xs font-semibold bg-gray-100 text-brand-dark hover:bg-gray-200';
+                }
+            }
+
+            // Update content with smooth transition
+            const originalEl = document.getElementById('scenario-original');
+            const suggestionEl = document.getElementById('scenario-suggestion');
+            const explanationEl = document.getElementById('scenario-explanation');
+
+            originalEl.textContent = scenarios[num].original;
+            suggestionEl.textContent = scenarios[num].suggestion;
+            explanationEl.textContent = scenarios[num].explanation;
+        }
+
+        /* Interactive Folder Tree Toggle */
+        function toggleFolder(folderId) {
+            const folder = document.getElementById(folderId);
+            if (folder) {
+                folder.classList.toggle('hidden');
+            }
+        }
+
+        /* Interactive Student Search Filter in Dashboard Simulator */
+        function filterAppList() {
+            const input = document.getElementById('studentSearch').value.toLowerCase();
+            const rows = document.querySelectorAll('#appStudentList .student-row');
+
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                if (text.includes(input)) {
+                    row.style.display = 'flex';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
