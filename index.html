@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ACTA PRO | MVP</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand"><div class="logo">AP</div><div><strong>ACTA PRO</strong><small>MVP docente</small></div></div>
+      <button class="nav active" data-view="dashboard">Dashboard</button>
+      <button class="nav" data-view="calendar">Google Calendar</button>
+      <button class="nav" data-view="meeting">Reunión</button>
+      <button class="nav" data-view="repository">Repositorio</button>
+    </aside>
+
+    <main>
+      <header class="topbar">
+        <span class="pill">Hackathon MVP</span>
+        <div id="googleStatus" class="status">Google no conectado</div>
+      </header>
+
+      <section id="dashboard" class="view active">
+        <h1>ACTA PRO</h1>
+        <p class="lead">De una reunión a una evidencia institucional, en tiempo real.</p>
+        <div class="notice">Primera integración real preparada: Google Calendar → ACTA PRO. Runachay se conectará después mediante su API oficial.</div>
+
+        <div class="cards">
+          <article class="card"><span>Reuniones ACTA PRO</span><strong id="metricMeetings">0</strong><small>detectadas en Calendar</small></article>
+          <article class="card"><span>Próxima reunión</span><strong id="metricNext">—</strong><small id="metricNextName">Sincroniza Calendar</small></article>
+          <article class="card"><span>Meta MVP</span><strong>≤ 90 s</strong><small>acta preliminar</small></article>
+        </div>
+
+        <div class="panel">
+          <h2>Conectar calendario institucional</h2>
+          <p>ACTA PRO buscará eventos cuyo título comience por <code>[ACTA PRO]</code>.</p>
+          <button id="connectGoogle" class="primary">Conectar Google Calendar</button>
+          <button id="demoMode" class="secondary">Usar datos demo</button>
+        </div>
+      </section>
+
+      <section id="calendar" class="view">
+        <div class="sectionHeader"><div><h1>Google Calendar</h1><p>Reuniones detectadas automáticamente.</p></div><button id="refreshCalendar" class="secondary">Actualizar</button></div>
+        <div id="calendarSetup" class="notice"></div>
+        <div id="eventsList" class="events"></div>
+      </section>
+
+      <section id="meeting" class="view">
+        <h1>Ficha de reunión</h1>
+        <p class="lead">Los datos se preparan automáticamente desde Calendar.</p>
+
+        <div id="meetingEmpty" class="panel">Todavía no has seleccionado una reunión.</div>
+
+        <div id="meetingCard" class="panel hidden">
+          <div class="formgrid">
+            <label>Estudiante<input id="studentName" /></label>
+            <label>Representante<input id="representativeName" /></label>
+            <label>Correo<input id="representativeEmail" type="email" /></label>
+            <label>Curso<input id="course" /></label>
+            <label class="wide">Motivo<input id="meetingReason" /></label>
+          </div>
+
+          <div class="participants">
+            <h3>Participantes presentes</h3>
+            <label><input type="checkbox" checked disabled /> Docente</label>
+            <label><input type="checkbox" id="mother" /> Madre</label>
+            <label><input type="checkbox" id="father" /> Padre</label>
+            <label><input type="checkbox" id="student" /> Estudiante</label>
+          </div>
+
+          <button id="startMeeting" class="primary">Iniciar reunión</button>
+        </div>
+
+        <div id="liveMeeting" class="panel hidden">
+          <div class="liveHead"><strong>Reunión en curso</strong><span class="recording">● EN VIVO</span></div>
+          <p>En la siguiente fase conectaremos el micrófono con Speech-to-Text. Esta versión ya deja lista la ficha real de la reunión obtenida desde Google Calendar.</p>
+          <button id="finishMeeting" class="secondary">Finalizar demostración</button>
+        </div>
+      </section>
+
+      <section id="repository" class="view">
+        <h1>Repositorio</h1>
+        <p class="lead">Aquí aparecerán las actas finales clasificadas por estudiante y fecha.</p>
+        <div class="panel"><strong>Próxima fase</strong><p>Generación del acta + firma + Google Drive + envío por Gmail.</p></div>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast"></div>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
