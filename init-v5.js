@@ -50,5 +50,10 @@ function bindSecondaryUX(){
 function renderAll(){
   renderDashboard();renderMeetings();fillMeetingForm();renderCommitments();renderFollowups();renderStudents();renderGuardians();renderAnalytics();renderArchive();renderNotifications();renderAudit();applyRole();
 }
+function loadSpeech67(){
+  if(!document.querySelector('link[href="speech-v67.css"]')){const l=document.createElement('link');l.rel='stylesheet';l.href='speech-v67.css';document.head.appendChild(l)}
+  if(!document.querySelector('script[src="speech-v67a.js"]')){const s=document.createElement('script');s.src='speech-v67a.js';document.body.appendChild(s)}
+}
 bindSecondaryUX();
 renderAll();
+loadSpeech67();
