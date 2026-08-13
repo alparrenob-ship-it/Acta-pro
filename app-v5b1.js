@@ -11,3 +11,8 @@ window.studentProfile=id=>{let s=getStudent(id),ms=db.meetings.filter(m=>m.stude
 
 function renderGuardians(){let q=($("guardianSearch")?.value||"").toLowerCase();$("guardianList").innerHTML=db.guardians.filter(g=>g.name.toLowerCase().includes(q)).map(g=>{let s=getStudent(g.studentId);return `<div class="card"><div class="student-head"><div class="bigavatar">${initials(g.name)}</div><div><h3>${g.name}</h3><p class="small">${g.relation} de ${s.name}</p></div></div><p class="small">${g.email}<br>${g.phone}</p></div>`}).join("")}
 $("guardianSearch").oninput=renderGuardians;
+
+(function loadFlowUX(){
+ const css=document.createElement('link');css.rel='stylesheet';css.href='flow-v6.css';document.head.appendChild(css);
+ const js=document.createElement('script');js.src='flow-v6.js';document.body.appendChild(js);
+})();
