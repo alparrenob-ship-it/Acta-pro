@@ -1,53 +1,57 @@
-# ACTA PRO — MVP v2
+# ACTA PRO — MVP v5
 
-## Estado actual
+**De una reunión a una evidencia institucional, en tiempo real.**
 
-Esta versión inicia la conexión directa **Google Calendar → ACTA PRO**, sin n8n.
+ACTA PRO es un MVP funcional para gestionar reuniones escolares con enfoque en trazabilidad, redacción objetiva, control humano y seguimiento institucional.
 
-### Ya preparado
-- Interfaz navegable.
-- Login OAuth de Google Calendar.
-- Lectura de eventos del calendario principal.
-- Filtro de reuniones `[ACTA PRO]`.
-- Preparación automática de la ficha de reunión.
-- Extracción de datos desde la descripción del evento.
-- Selección de participantes.
-- Modo demo si aún no existe Client ID.
+## Flujo funcional
 
-### Próxima fase
-- Micrófono y Speech-to-Text.
-- Separación de hablantes.
-- Generación de acta con IA.
-- Firma.
-- Google Drive.
-- Gmail.
-- Repositorio real.
-- Runachay API.
+Dashboard → reuniones → preparación → participantes → consentimiento → reunión en vivo → transcripción simulada → ACTA AI → evidencias → compromisos → generación de acta → revisión por secciones → firma → archivo → seguimiento.
 
-## Formato recomendado del evento
+## Funciones incluidas
 
-Título:
+- Landing pública y login demo.
+- Cambio de rol: Docente, Coordinador, DECE y Administrador.
+- Dashboard institucional.
+- Agenda de reuniones.
+- Creación de nuevas reuniones.
+- Google Calendar simulado.
+- Runachay mock.
+- Preparación de reunión y participantes.
+- Consentimiento obligatorio.
+- Reunión en vivo con cronómetro.
+- Transcripción simulada por hablante.
+- ACTA AI con detección de lenguaje subjetivo y afirmaciones que requieren evidencia.
+- Evidencias y compromisos.
+- Generación dinámica del acta.
+- Edición y aprobación humana por secciones.
+- Comparación entre conversación y acta.
+- Firma táctil/mouse.
+- Archivo digital con búsqueda y filtros.
+- Exportación JSON del archivo.
+- Seguimientos.
+- Perfiles de estudiantes y representantes.
+- Analítica institucional.
+- Notificaciones.
+- Auditoría.
+- Privacidad y permisos por rol.
+- Persistencia local con localStorage.
+- Diseño responsive para desktop, laptop, iPad, tablet y móvil.
 
-`[ACTA PRO] Juan Pérez - Seguimiento académico`
+## Datos demo
 
-Descripción:
+Incluye 5 estudiantes, 5 representantes, 4 docentes, 8 reuniones, 6 actas, 10 compromisos, 5 seguimientos y 15 notificaciones ficticias.
 
-```text
-Estudiante: Juan Pérez
-Representante: María López
-Correo: maria.lopez@email.com
-Curso: 7.º EGB A
-Motivo: Seguimiento académico
-```
+## Integraciones
 
-## Configurar Google Calendar
+En este MVP, Google Calendar, Runachay, Gmail y otras integraciones externas se presentan mediante datos simulados o puntos preparados para conexión posterior. No se exponen secretos en el repositorio.
 
-1. Crea un proyecto en Google Cloud.
-2. Habilita Google Calendar API.
-3. Configura OAuth Consent Screen.
-4. Crea un OAuth Client ID tipo Web application.
-5. Añade el dominio donde alojarás ACTA PRO a Authorized JavaScript origins.
-6. Copia el Client ID.
-7. Sustituye el placeholder de `config.js`.
+## Principio central
 
-**No pongas Client Secret en este proyecto frontend.**
+> **IA asistida. Decisión humana. Evidencia trazable.**
+
+La IA puede organizar, resumir, detectar, sugerir y estructurar. La decisión final corresponde siempre al profesional responsable.
+
+## GitHub Pages
+
+La versión pública se despliega desde `main` / raíz mediante GitHub Pages.
