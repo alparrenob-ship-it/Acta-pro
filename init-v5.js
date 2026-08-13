@@ -3,57 +3,16 @@ function renderAnalytics(){
   if(meetingsEl){const vals=[14,18,16,22,25,19,14,20];meetingsEl.innerHTML=vals.map(v=>`<div class="bar" style="height:${v*5}px"><b>${v}</b></div>`).join("");}
   if(reasonsEl){const vals=[28,22,18,16,12,9];reasonsEl.innerHTML=vals.map(v=>`<div class="bar" style="height:${v*5}px;background:#dff1eb"><b>${v}</b></div>`).join("");}
 }
-
-function renderArchive(){
-  const list=$("archiveList"); if(!list) return;
-  const q=($("archiveSearch")?.value||"").toLowerCase();
-  const f=$("archiveStatus")?.value||"all";
-  list.innerHTML=db.acts.filter(a=>f==="all"||a.status===f).filter(a=>{
-    const m=getMeeting(a.meetingId); if(!m) return false;
-    const s=getStudent(m.studentId), g=getGuardian(m.guardianId);
-    return `${s?.name||""} ${g?.name||""} ${m.type||""} ${a.number||""}`.toLowerCase().includes(q);
-  }).map(a=>{
-    const m=getMeeting(a.meetingId),s=getStudent(m.studentId);
-    return `<div class="repo-row"><div><b>${s?.name||"Estudiante"}</b><div class="small muted">${a.date} · ${m.type} · ${a.number}</div></div><div class="repo-actions">${statusTag(a.status)}<button class="secondary" onclick="viewArchive('${a.id}')">Ver</button></div></div>`;
-  }).join("")||`<div class="panel muted small">No se encontraron actas con esos filtros.</div>`;
-}
-window.viewArchive=id=>{
-  const a=db.acts.find(x=>x.id===id); if(!a) return;
-  const m=getMeeting(a.meetingId),s=getStudent(m.studentId),g=getGuardian(m.guardianId);
-  openModal(a.number,`<p><b>${s?.name||"Estudiante"}</b><br>${m?.reason||""}<br>${a.date}</p><p>Representante: ${g?.name||"—"}<br>Estado: ${a.status}</p>`);
-};
-
-function renderNotifications(){
-  const list=$("notificationList"); if(!list) return;
-  list.innerHTML=db.notifications.map(n=>`<div class="notif" style="${n.read?"opacity:.55":""}"><div class="nicon">🔔</div><div><b>${n.text}</b><div class="small muted">${n.read?"Leída":"Nueva"}</div></div></div>`).join("");
-}
-
-function renderAudit(){
-  const el=$("auditTimeline"); if(!el) return;
-  el.innerHTML=db.audit.map(a=>`<div class="audit-row"><time>${a[0]}</time><div>${a[1]}</div></div>`).join("");
-}
-
-function bindSecondaryUX(){
-  if($("archiveSearch")) $("archiveSearch").oninput=renderArchive;
-  if($("archiveStatus")) $("archiveStatus").onchange=renderArchive;
-  if($("exportArchive")) $("exportArchive").onclick=()=>{
-    const blob=new Blob([JSON.stringify(db.acts,null,2)],{type:"application/json"});
-    const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="acta-pro-archivo.json"; a.click(); URL.revokeObjectURL(a.href); toast("Archivo exportado");
-  };
-  if($("markAllRead")) $("markAllRead").onclick=()=>{db.notifications.forEach(n=>n.read=true);save();renderNotifications();toast("Notificaciones marcadas como leídas")};
-  const sync=()=>{const el=$("syncResult"); if(el) el.textContent="Buscando nuevas reuniones…"; setTimeout(()=>{if(el) el.textContent="2 reuniones nuevas encontradas.";toast("Calendario sincronizado")},1100)};
-  if($("syncCalendar")) $("syncCalendar").onclick=sync;
-  if($("syncCalendar2")) $("syncCalendar2").onclick=sync;
-  if($("globalDemo")) $("globalDemo").onclick=()=>{currentMeetingId="m1";prepareMeeting("m1");toast("Demo guiada iniciada")};
-}
-
-function renderAll(){
-  renderDashboard();renderMeetings();fillMeetingForm();renderCommitments();renderFollowups();renderStudents();renderGuardians();renderAnalytics();renderArchive();renderNotifications();renderAudit();applyRole();
-}
-function loadSpeech67(){
-  if(!document.querySelector('link[href="speech-v67.css"]')){const l=document.createElement('link');l.rel='stylesheet';l.href='speech-v67.css';document.head.appendChild(l)}
-  if(!document.querySelector('script[src="speech-v67a.js"]')){const s=document.createElement('script');s.src='speech-v67a.js';document.body.appendChild(s)}
-}
-bindSecondaryUX();
-renderAll();
-loadSpeech67();
+function renderArchive(){const list=$("archiveList");if(!list)return;const q=($("archiveSearch")?.value||"").toLowerCase(),f=$("archiveStatus")?.value||"all";list.innerHTML=db.acts.filter(a=>f==="all"||a.status===f).filter(a=>{const m=getMeeting(a.meetingId);if(!m)return false;const s=getStudent(m.studentId),g=getGuardian(m.guardianId);return `${s?.name||""} ${g?.name||""} ${m.type||""} ${a.number||""}`.toLowerCase().includes(q)}).map(a=>{const m=getMeeting(a.meetingId),s=getStudent(m.studentId);return `<div class="repo-row"><div><b>${s?.name||"Estudiante"}</b><div class="small muted">${a.date} · ${m.type} · ${a.number}</div></div><div class="repo-actions">${statusTag(a.status)}<button class="secondary" onclick="viewArchive('${a.id}')">Ver</button></div></div>`}).join("")||`<div class="panel muted small">No se encontraron actas con esos filtros.</div>`}
+window.viewArchive=id=>{const a=db.acts.find(x=>x.id===id);if(!a)return;const m=getMeeting(a.meetingId),s=getStudent(m.studentId),g=getGuardian(m.guardianId);openModal(a.number,`<p><b>${s?.name||"Estudiante"}</b><br>${m?.reason||""}<br>${a.date}</p><p>Representante: ${g?.name||"—"}<br>Estado: ${a.status}</p>`)};
+function renderNotifications(){const list=$("notificationList");if(list)list.innerHTML=db.notifications.map(n=>`<div class="notif" style="${n.read?"opacity:.55":""}"><div class="nicon">🔔</div><div><b>${n.text}</b><div class="small muted">${n.read?"Leída":"Nueva"}</div></div></div>`).join("")}
+function renderAudit(){const el=$("auditTimeline");if(el)el.innerHTML=db.audit.map(a=>`<div class="audit-row"><time>${a[0]}</time><div>${a[1]}</div></div>`).join("")}
+function bindSecondaryUX(){if($("archiveSearch"))$("archiveSearch").oninput=renderArchive;if($("archiveStatus"))$("archiveStatus").onchange=renderArchive;if($("markAllRead"))$("markAllRead").onclick=()=>{db.notifications.forEach(n=>n.read=true);save();renderNotifications();toast("Notificaciones marcadas como leídas")};const sync=()=>{const el=$("syncResult");if(el)el.textContent="Buscando nuevas reuniones…";setTimeout(()=>{if(el)el.textContent="2 reuniones nuevas encontradas.";toast("Calendario sincronizado")},900)};if($("syncCalendar"))$("syncCalendar").onclick=sync;if($("syncCalendar2"))$("syncCalendar2").onclick=sync}
+function renderAll(){renderDashboard();renderMeetings();fillMeetingForm();renderCommitments();renderFollowups();renderStudents();renderGuardians();renderAnalytics();renderArchive();renderNotifications();renderAudit();applyRole()}
+function loadSpeech67(){if(!document.querySelector('link[href="speech-v67.css"]')){const l=document.createElement('link');l.rel='stylesheet';l.href='speech-v67.css';document.head.appendChild(l)}if(!document.querySelector('script[src="speech-v67a.js"]')){const s=document.createElement('script');s.src='speech-v67a.js';document.body.appendChild(s)}}
+function actNarrative(){const g=transcript.filter(x=>/madre|padre|representante/i.test(x.role)),t=transcript.filter(x=>/docente/i.test(x.role)),s=transcript.filter(x=>/estudiante/i.test(x.role));const topics=[];if(transcript.some(x=>/agenda|organiza|tarea|actividad/i.test(x.text)))topics.push('organización académica y cumplimiento de actividades');if(transcript.some(x=>/tiempo|demora|distra/i.test(x.text)))topics.push('gestión del tiempo y continuidad en las tareas');if(!topics.length)topics.push('situaciones expuestas durante la reunión');const d=[];if(g.length)d.push('La persona representante expuso sus observaciones y manifestó interés en fortalecer el acompañamiento desde el hogar.');if(t.length)d.push('La docente presentó observaciones relacionadas con el desarrollo de las actividades escolares y planteó acciones de seguimiento.');if(s.length)d.push('La estudiante participó en el encuentro y manifestó aspectos relacionados con su organización y ejecución de las actividades asignadas.');return{a:'La reunión se desarrolló con el propósito de revisar la situación planteada y establecer acciones de acompañamiento, manteniendo un registro objetivo de los aspectos tratados.',t:'Durante el encuentro se abordaron principalmente '+topics.join(', ')+'. '+d.join(' '),o:'Las partes expresaron su disposición para dar cumplimiento a los acuerdos establecidos y realizar el seguimiento correspondiente.'}}
+function professionalBuildAct(){const m=getMeeting(currentMeetingId),s=getStudent(m.studentId),g=getGuardian(m.guardianId),t=getTeacher(m.teacherId),n=actNarrative(),ev=evidence.length?evidence.map(e=>`<b>${e.title}</b> — ${e.desc}`).join('<br>'):'No se registraron evidencias adicionales durante la reunión.',cs=db.commitments.filter(c=>c.meetingId===currentMeetingId),com=cs.length?cs.map(c=>`<b>${c.responsibleName}</b>: ${c.description}. Fecha prevista: ${c.dueDate}.`).join('<br>'):'No se registraron compromisos con fecha definida durante la reunión.';currentAct={meetingId:m.id,number:'ACTA-2026-'+String(184+db.acts.length).padStart(5,'0'),sections:{general:`Fecha: ${m.date}<br>Hora: ${m.startTime}<br>Docente: ${t.name}<br>Estudiante: ${s.name}<br>Representante: ${g.name}<br>Curso: ${s.course}<br>Motivo: ${m.reason}`,antecedentes:n.a,temas:n.t,evidencias:ev,acuerdos:com,compromisos:com,observaciones:n.o}};sectionApproval=Object.fromEntries(sectionNames.map(x=>[x,false]))}
+function professionalRenderAct(){if(!currentAct)return;const s=currentAct.sections,h=$("actDocument");h.innerHTML=`<div class="pro-act-head"><h2>ACTA DE REUNIÓN CON REPRESENTANTE</h2><p>Unidad Educativa Eight Academy · ${currentAct.number}</p></div><div class="pro-block"><h4>Información general <span class="pro-label">Institucional</span></h4><div class="pro-text" contenteditable="true" data-k="general">${s.general}</div></div><div class="pro-block"><h4>Antecedentes y motivo <span class="pro-label">ACTA AI</span></h4><div class="pro-text" contenteditable="true" data-k="antecedentes">${s.antecedentes}</div></div><div class="pro-block"><h4>Desarrollo de la reunión <span class="pro-label">ACTA AI</span></h4><div class="pro-text" contenteditable="true" data-k="temas">${s.temas}</div></div><div class="pro-block"><h4>Evidencias mencionadas <span class="pro-label">Trazabilidad</span></h4><div class="pro-text" contenteditable="true" data-k="evidencias">${s.evidencias}</div></div><div class="pro-block"><h4>Acuerdos y compromisos <span class="pro-label">Seguimiento</span></h4><div class="pro-text" contenteditable="true" data-k="acuerdos">${s.acuerdos}</div></div><div class="pro-block"><h4>Observaciones finales <span class="pro-label">ACTA AI</span></h4><div class="pro-text" contenteditable="true" data-k="observaciones">${s.observaciones}</div></div><div class="professional-note">ACTA AI estructura la redacción. El docente verifica hechos, responsables, fechas y acuerdos antes de firmar.</div>`;h.querySelectorAll('[data-k]').forEach(el=>el.oninput=()=>currentAct.sections[el.dataset.k]=el.innerHTML);simpleApproval()}
+function simpleApproval(){const aside=$("actWorkspace")?.querySelector('aside.panel');if(!aside||$("simpleReview68"))return;const box=document.createElement('div');box.id='simpleReview68';box.className='simple-review-actions';box.innerHTML='<div class="review-summary">Edita directamente el acta si es necesario. Cuando el contenido sea correcto, aprueba el documento completo.</div><button id="approveWhole68" class="primary full">Aprobar acta y continuar a firma</button>';aside.appendChild(box);$("approveWhole68").onclick=()=>{sectionNames.forEach(k=>sectionApproval[k]=true);renderReview();toast("Acta aprobada por el docente");$("goSignBtn").click()}}
+buildAct=professionalBuildAct;renderAct=professionalRenderAct;
+bindSecondaryUX();renderAll();loadSpeech67();setTimeout(simpleApproval,500);
