@@ -1,0 +1,15 @@
+/* ACTA PRO v6.8 — UX simplificada */
+.sidebar .nav[data-view="commitments"],.sidebar .nav[data-view="students"],.sidebar .nav[data-view="guardians"],.sidebar .nav[data-view="analytics"],.sidebar .nav[data-view="notifications"]{display:none!important}
+#flowV6 .flow-v6-step,.flow-v6-step,.flow-step{pointer-events:none!important;cursor:default!important}
+.top-actions #globalDemo{display:none!important}
+#manualSpeaker,#manualText,#manualAdd,#exportArchive,#markAllRead,#toggleCompare,#tabAct,#tabTranscript,#sectionReview{display:none!important}
+.sidebar:after{content:"Funciones avanzadas disponibles dentro de cada acta";display:block;color:#b9c9d8;font-size:10px;line-height:1.4;margin:16px 8px 0}
+.simple-next{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 16px;border:1px solid #cbd8ef;border-radius:14px;background:#f8faff;margin:0 0 16px}
+.simple-next h4{margin:0 0 3px}.simple-next p{font-size:11px;margin:0}.simple-next button{min-width:180px}
+#speechControl67{border:0!important;background:#f7f9fc!important;padding:14px!important}#speechControl67 #startSpeech67{font-size:14px!important;padding:12px 18px!important}#simulateConversation{font-size:11px!important}
+.pro-act-head{padding:16px;border-radius:14px;background:#0b2440;color:#fff;margin-bottom:16px}.pro-act-head h2{color:#fff;margin:0 0 4px}.pro-act-head p{color:#d8e4f0;margin:0;font-size:11px}
+.pro-block{padding:14px 0;border-bottom:1px solid var(--line)}.pro-block:last-child{border-bottom:0}.pro-block h4{display:flex;align-items:center;justify-content:space-between;margin:0 0 7px}.pro-label{font-size:10px;color:#4067a7;background:#eaf1ff;border-radius:999px;padding:4px 7px}.pro-text{line-height:1.65;color:#263549}
+.professional-note{padding:10px 12px;border-radius:10px;background:#f8fafc;border-left:3px solid #2f6fed;font-size:11px;color:#5c6878;margin-top:10px}
+.simple-review-actions{display:grid;gap:8px;margin-top:10px}.review-summary{padding:12px;border-radius:11px;background:#f6f8fb;border:1px solid var(--line);font-size:11px;color:#596678}
+.section-toolbar{display:none!important}
+@media(max-width:800px){.simple-next{align-items:flex-start;flex-direction:column}.simple-next button{width:100%;min-width:0}}
