@@ -1,96 +1,125 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ACTA PRO | MVP</title>
-  <link rel="stylesheet" href="styles.css" />
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ACTA PRO · MVP Startup</title>
+<link rel="stylesheet" href="styles-v5.css">
 </head>
 <body>
-  <div class="layout">
-    <aside class="sidebar">
-      <div class="brand"><div class="logo">AP</div><div><strong>ACTA PRO</strong><small>MVP docente</small></div></div>
-      <button class="nav active" data-view="dashboard">Dashboard</button>
-      <button class="nav" data-view="calendar">Google Calendar</button>
-      <button class="nav" data-view="meeting">Reunión</button>
-      <button class="nav" data-view="repository">Repositorio</button>
-    </aside>
 
-    <main>
-      <header class="topbar">
-        <span class="pill">Hackathon MVP</span>
-        <div id="googleStatus" class="status">Google no conectado</div>
-      </header>
+<section id="landingScreen" class="landing">
+<nav><div class="brand" style="padding:0"><div class="logo">AP</div><div><strong>ACTA PRO</strong><small class="muted">Evidence Intelligence</small></div></div><div><button id="landingLogin" class="secondary">Iniciar sesión</button> <button id="landingDemo" class="primary">▶ Ver demostración</button></div></nav>
+<div class="landing-hero"><div><span class="eyebrow">EDTECH · EVIDENCIA INSTITUCIONAL</span><h1>Convierte cada reunión escolar en una evidencia clara, objetiva y trazable.</h1><p>ACTA PRO acompaña al docente antes, durante y después de cada reunión: organiza, transcribe, detecta acuerdos, propone redacción, permite revisión humana y da seguimiento.</p><button id="heroDemo" class="primary">▶ Iniciar demo ACTA PRO</button></div><div class="panel"><h3>Cómo funciona</h3><div class="timeline"><div>1. Agenda</div><div>2. Prepara</div><div>3. Escucha</div><div>4. Organiza</div><div>5. Revisa</div><div>6. Firma</div><div>7. Da seguimiento</div></div></div></div>
+<div class="landing-grid"><div class="landing-card"><h3>Menos carga</h3><p>El docente se concentra en la conversación.</p></div><div class="landing-card"><h3>Más trazabilidad</h3><p>Transcripción, acuerdos, evidencias y auditoría.</p></div><div class="landing-card"><h3>Redacción objetiva</h3><p>La IA sugiere; el docente decide.</p></div><div class="landing-card"><h3>Privacidad</h3><p>Roles, mínimo privilegio y revisión humana.</p></div></div>
+</section>
 
-      <section id="dashboard" class="view active">
-        <h1>ACTA PRO</h1>
-        <p class="lead">De una reunión a una evidencia institucional, en tiempo real.</p>
-        <div class="notice">Primera integración real preparada: Google Calendar → ACTA PRO. Runachay se conectará después mediante su API oficial.</div>
+<section id="loginScreen" class="login hidden">
+<div class="login-card"><div class="logo">AP</div><h2>Bienvenido a ACTA PRO</h2><p>Accede con tu cuenta institucional.</p><label class="small bold">Correo institucional</label><input id="loginEmail" value="anita.parreno@eightacademy.edu.ec"><label class="small bold">Contraseña</label><input id="loginPassword" type="password" value="demo123"><button id="loginBtn" class="primary full">Iniciar sesión</button><button id="googleLogin" class="secondary full">Continuar con Google</button><div class="divider">o</div><button id="demoLogin" class="secondary full">Entrar en modo demostración</button><button id="backLanding" class="ghost full">Volver</button></div>
+</section>
 
-        <div class="cards">
-          <article class="card"><span>Reuniones ACTA PRO</span><strong id="metricMeetings">0</strong><small>detectadas en Calendar</small></article>
-          <article class="card"><span>Próxima reunión</span><strong id="metricNext">—</strong><small id="metricNextName">Sincroniza Calendar</small></article>
-          <article class="card"><span>Meta MVP</span><strong>≤ 90 s</strong><small>acta preliminar</small></article>
-        </div>
+<div id="appScreen" class="app hidden">
+<aside class="sidebar">
+<div class="brand"><div class="logo">AP</div><div><strong>ACTA PRO</strong><small>Evidence Intelligence</small></div></div>
+<div class="rolebox"><div class="small">Rol activo</div><select id="roleSelect"><option>Docente</option><option>Coordinador</option><option>DECE</option><option>Administrador</option></select></div>
+<button class="nav active" data-view="dashboard"><span class="ico">🏠</span>Inicio</button>
+<button class="nav" data-view="meetings"><span class="ico">📅</span>Reuniones</button>
+<button class="nav" data-view="newMeeting"><span class="ico">➕</span>Nueva reunión</button>
+<button class="nav" data-view="live"><span class="ico">🎙</span>Reunión en vivo</button>
+<button class="nav" data-view="acts"><span class="ico">📄</span>Actas</button>
+<button class="nav" data-view="commitments"><span class="ico">✅</span>Compromisos</button>
+<button class="nav" data-view="followups"><span class="ico">🔔</span>Seguimientos</button>
+<button class="nav" data-view="students"><span class="ico">👨‍🎓</span>Estudiantes</button>
+<button class="nav" data-view="guardians"><span class="ico">👨‍👩‍👧</span>Representantes</button>
+<button class="nav" data-view="analytics"><span class="ico">📊</span>Analítica</button>
+<button class="nav" data-view="archive"><span class="ico">🗂</span>Archivo</button>
+<button class="nav" data-view="notifications"><span class="ico">🔔</span>Notificaciones</button>
+<button class="nav" data-view="settings"><span class="ico">⚙️</span>Configuración</button>
+<div class="sidefoot">🔒 Privado · 👁 Acceso restringido<br>📋 Auditoría activa</div>
+</aside>
 
-        <div class="panel">
-          <h2>Conectar calendario institucional</h2>
-          <p>ACTA PRO buscará eventos cuyo título comience por <code>[ACTA PRO]</code>.</p>
-          <button id="connectGoogle" class="primary">Conectar Google Calendar</button>
-          <button id="demoMode" class="secondary">Usar datos demo</button>
-        </div>
-      </section>
+<main class="main">
+<div class="topbar"><div><span class="pill green">IA asistida</span><span class="pill">Decisión humana</span><span class="pill">Evidencia trazable</span></div><div class="top-actions"><button id="globalDemo" class="secondary">▶ Demo guiada</button><button id="logoutBtn" class="ghost">Salir</button></div></div>
 
-      <section id="calendar" class="view">
-        <div class="sectionHeader"><div><h1>Google Calendar</h1><p>Reuniones detectadas automáticamente.</p></div><button id="refreshCalendar" class="secondary">Actualizar</button></div>
-        <div id="calendarSetup" class="notice"></div>
-        <div id="eventsList" class="events"></div>
-      </section>
+<section id="dashboard" class="view active">
+<div class="section-head"><div><span class="eyebrow">PANEL DOCENTE</span><h1>Buenos días, Anita</h1><p>ACTA PRO | Panel de gestión de reuniones</p></div><button id="syncCalendar" class="secondary">↻ Sincronizar calendario</button></div>
+<div class="grid kpis"><div class="metric"><small>Reuniones hoy</small><strong id="kpiToday">3</strong><span>agenda del día</span></div><div class="metric"><small>Esta semana</small><strong id="kpiWeek">8</strong><span>programadas</span></div><div class="metric"><small>Actas pendientes</small><strong id="kpiActs">2</strong><span>por revisar</span></div><div class="metric"><small>Compromisos abiertos</small><strong id="kpiCom">5</strong><span>activos</span></div><div class="metric"><small>Seguimiento urgente</small><strong id="kpiFollow">1</strong><span>requiere atención</span></div></div>
+<div class="grid two"><div class="panel"><h3>Agenda del día</h3><div id="todayTimeline" class="timeline"></div></div><div class="panel"><h3>Google Calendar</h3><p><span class="tag green">Conectado ✓</span></p><p class="small">ACTA PRO detecta reuniones que contienen estudiante, representante, fecha, hora y motivo.</p><button id="syncCalendar2" class="primary full">Sincronizar calendario</button><div id="syncResult" class="small muted"></div><hr style="border:0;border-top:1px solid var(--line);margin:16px 0"><h3>Runachay</h3><p><span class="tag green">Mock activo ✓</span></p><p class="small">Los datos del estudiante y representante se completan automáticamente en la demo.</p></div></div>
+</section>
 
-      <section id="meeting" class="view">
-        <h1>Ficha de reunión</h1>
-        <p class="lead">Los datos se preparan automáticamente desde Calendar.</p>
+<section id="meetings" class="view">
+<div class="section-head"><div><span class="eyebrow">REUNIONES</span><h1>Gestión de reuniones</h1><p>Consulta, prepara o abre reuniones.</p></div><button class="primary" onclick="showView('newMeeting')">+ Nueva reunión</button></div>
+<div class="searchbar"><input id="meetingSearch" placeholder="Buscar estudiante, representante o motivo..."><select id="meetingStatusFilter"><option value="all">Todos los estados</option><option>scheduled</option><option>prepared</option><option>live</option><option>review</option><option>signed</option><option>archived</option></select></div>
+<div id="meetingList" class="timeline" style="margin-top:14px"></div>
+</section>
 
-        <div id="meetingEmpty" class="panel">Todavía no has seleccionado una reunión.</div>
+<section id="newMeeting" class="view">
+<span class="eyebrow">NUEVA REUNIÓN</span><h1>Crear reunión</h1><p>Registra una nueva reunión institucional.</p>
+<div class="panel"><div class="formgrid"><label>Estudiante<select id="newStudent"></select></label><label>Representante<select id="newGuardian"></select></label><label>Docente<select id="newTeacher"></select></label><label>Fecha<input id="newDate" type="date"></label><label>Hora<input id="newTime" type="time" value="09:00"></label><label>Tipo<select id="newType"><option>Académica</option><option>Conductual</option><option>Seguimiento</option><option>DECE</option><option>Tutoría</option><option>Administrativa</option><option>Otra</option></select></label><label>Modalidad<select id="newModality"><option>Presencial</option><option>Online</option><option>Telefónica</option></select></label><label class="wide">Motivo<textarea id="newReason" rows="3" placeholder="Describe brevemente el motivo..."></textarea></label></div><button id="createMeetingBtn" class="primary">Crear reunión</button></div>
+</section>
 
-        <div id="meetingCard" class="panel hidden">
-          <div class="formgrid">
-            <label>Estudiante<input id="studentName" /></label>
-            <label>Representante<input id="representativeName" /></label>
-            <label>Correo<input id="representativeEmail" type="email" /></label>
-            <label>Curso<input id="course" /></label>
-            <label class="wide">Motivo<input id="meetingReason" /></label>
-          </div>
+<section id="live" class="view">
+<div class="section-head"><div><span class="eyebrow">REUNIÓN EN VIVO</span><h1 id="liveTitle">Sala inteligente</h1><p id="liveSubtitle">Selecciona una reunión desde el listado.</p></div><div id="liveClock" class="pill red hidden">🔴 <span id="timer">00:00</span></div></div>
+<div id="prepCard" class="panel"><h3>Preparar reunión</h3><div id="prepInfo" class="muted">No hay reunión seleccionada.</div><div id="participantArea" class="hidden"><h4>¿Quiénes participarán?</h4><div id="participantCheckboxes"></div><div id="participantAvatars" class="participant-list"></div><div class="consent"><input id="consentCheck" type="checkbox"><label for="consentCheck"><strong>Consentimiento para registro</strong><br><span class="small">Los participantes confirman que han sido informados sobre el uso de ACTA PRO para apoyar la elaboración del acta y el registro de acuerdos.</span></label></div><button id="startLiveBtn" class="primary">Iniciar reunión</button></div></div>
+<div id="liveRoom" class="live-layout hidden">
+<div><div class="panel"><div class="live-top"><div><span class="recording">🔴 REUNIÓN EN VIVO</span><div class="speaker-label"><span id="speakingNow" class="small bold">Escuchando…</span><div class="wave"><i></i><i></i><i></i><i></i><i></i></div></div></div><div><button id="simulateConversation" class="primary">🎙 Simular conversación</button> <button id="pauseBtn" class="secondary">Pausar</button></div></div><div id="transcriptPanel" class="transcript"></div><div class="inline"><select id="manualSpeaker"></select><input id="manualText" placeholder="Agregar intervención manual..."><button id="manualAdd" class="secondary">Añadir</button></div></div>
+<div class="panel" style="margin-top:14px"><div class="section-head"><h3>Evidencias</h3><button id="addEvidenceBtn" class="secondary">+ Agregar evidencia</button></div><div id="evidenceGrid" class="evidence-grid"></div></div></div>
+<div><div class="panel"><h3>✨ ACTA AI</h3><div id="aiInsights"></div><button id="finishLiveBtn" class="danger full">Finalizar reunión</button></div><div class="panel" style="margin-top:14px"><h3>Compromisos detectados</h3><div id="liveCommitments"></div></div></div>
+</div>
+</section>
 
-          <div class="participants">
-            <h3>Participantes presentes</h3>
-            <label><input type="checkbox" checked disabled /> Docente</label>
-            <label><input type="checkbox" id="mother" /> Madre</label>
-            <label><input type="checkbox" id="father" /> Padre</label>
-            <label><input type="checkbox" id="student" /> Estudiante</label>
-          </div>
+<section id="acts" class="view">
+<div class="section-head"><div><span class="eyebrow">ACTAS</span><h1>Actas y revisión humana</h1><p>Genera, revisa, edita, aprueba y firma.</p></div><div><button id="toggleCompare" class="secondary">Ver transcripción original</button></div></div>
+<div id="processingPanel" class="panel hidden"><div class="processing"><div class="spinner"></div><h3>ACTA PRO está organizando la información de la reunión.</h3><p id="processingText">Transcripción ✓ · Participantes ✓ · Temas ✓ · Evidencias ✓ · Acuerdos ✓ · Compromisos ✓</p><div class="progress"><div id="actProgress"></div></div></div></div>
+<div id="actWorkspace" class="doc-layout"><div><div class="compare-tabs"><button id="tabAct" class="secondary active">Acta</button><button id="tabTranscript" class="secondary">Conversación</button></div><div id="actDocument" class="document"></div><div id="transcriptOriginal" class="panel hidden"></div></div><aside class="panel"><h3>Revisión del acta</h3><div class="progress"><div id="reviewProgress"></div></div><p class="small">Progreso: <strong id="reviewPercent">0%</strong></p><div id="sectionReview"></div><button id="goSignBtn" class="primary full" disabled>Continuar a firma</button></aside></div>
+</section>
 
-          <button id="startMeeting" class="primary">Iniciar reunión</button>
-        </div>
+<section id="commitments" class="view">
+<div class="section-head"><div><span class="eyebrow">COMPROMISOS</span><h1>Panel de compromisos</h1><p>Responsables, fechas y estados.</p></div><button id="addCommitmentBtn" class="primary">+ Agregar compromiso</button></div>
+<div class="panel"><table class="table"><thead><tr><th>Responsable</th><th>Compromiso</th><th>Fecha</th><th>Estado</th><th></th></tr></thead><tbody id="commitmentTable"></tbody></table></div>
+</section>
 
-        <div id="liveMeeting" class="panel hidden">
-          <div class="liveHead"><strong>Reunión en curso</strong><span class="recording">● EN VIVO</span></div>
-          <p>En la siguiente fase conectaremos el micrófono con Speech-to-Text. Esta versión ya deja lista la ficha real de la reunión obtenida desde Google Calendar.</p>
-          <button id="finishMeeting" class="secondary">Finalizar demostración</button>
-        </div>
-      </section>
+<section id="followups" class="view">
+<span class="eyebrow">SEGUIMIENTOS</span><h1>Seguimientos</h1><p>Compromisos con fechas que requieren revisión.</p><div id="followupList"></div>
+</section>
 
-      <section id="repository" class="view">
-        <h1>Repositorio</h1>
-        <p class="lead">Aquí aparecerán las actas finales clasificadas por estudiante y fecha.</p>
-        <div class="panel"><strong>Próxima fase</strong><p>Generación del acta + firma + Google Drive + envío por Gmail.</p></div>
-      </section>
-    </main>
-  </div>
+<section id="students" class="view">
+<div class="section-head"><div><span class="eyebrow">ESTUDIANTES</span><h1>Historial institucional</h1></div><input id="studentSearch" class="search" placeholder="Buscar estudiante..."></div><div id="studentList" class="grid three"></div>
+</section>
 
-  <div id="toast" class="toast"></div>
-  <script src="config.js"></script>
-  <script src="app.js"></script>
+<section id="guardians" class="view">
+<div class="section-head"><div><span class="eyebrow">REPRESENTANTES</span><h1>Representantes</h1></div><input id="guardianSearch" class="search" placeholder="Buscar representante..."></div><div id="guardianList" class="grid three"></div>
+</section>
+
+<section id="analytics" class="view">
+<span class="eyebrow">ANALÍTICA</span><h1>Indicadores institucionales</h1><p>Analítica operativa; no realiza diagnósticos psicológicos automáticos.</p>
+<div class="grid kpis"><div class="metric"><small>Reuniones realizadas</small><strong>128</strong></div><div class="metric"><small>Actas completadas</small><strong>121</strong></div><div class="metric"><small>Tiempo promedio</small><strong>1m 18s</strong></div><div class="metric"><small>Compromisos</small><strong>264</strong></div><div class="metric"><small>Cumplimiento</small><strong>81%</strong></div></div>
+<div class="grid two"><div class="panel"><h3>Reuniones por mes</h3><div id="chartMeetings" class="chart"></div></div><div class="panel"><h3>Motivos</h3><div id="chartReasons" class="chart"></div></div></div>
+</section>
+
+<section id="archive" class="view">
+<div class="section-head"><div><span class="eyebrow">ARCHIVO DIGITAL</span><h1>Archivo de actas</h1><p>Busca por estudiante, representante, curso, fecha, tipo o estado.</p></div><button id="exportArchive" class="secondary">Exportar JSON</button></div>
+<div class="searchbar"><input id="archiveSearch" placeholder="Buscar..."><select id="archiveStatus"><option value="all">Todos</option><option value="signed">Firmada</option><option value="archived">Archivada</option><option value="review">Pendiente revisión</option></select></div><div id="archiveList" class="repo-list" style="margin-top:14px"></div>
+</section>
+
+<section id="notifications" class="view">
+<div class="section-head"><div><span class="eyebrow">NOTIFICACIONES</span><h1>Centro de notificaciones</h1></div><button id="markAllRead" class="secondary">Marcar todo como leído</button></div><div class="panel" id="notificationList"></div>
+</section>
+
+<section id="settings" class="view">
+<span class="eyebrow">CONFIGURACIÓN</span><h1>Permisos y privacidad</h1><p>Privacidad por diseño y acceso por roles.</p>
+<div class="grid three"><div class="card"><h3>🔒 Privado</h3><p>Datos visibles únicamente para usuarios autorizados.</p></div><div class="card"><h3>👁 Acceso restringido</h3><p>Se aplica mínimo privilegio por rol.</p></div><div class="card"><h3>📋 Auditoría activa</h3><p>Cambios y aprobaciones quedan registrados.</p></div></div>
+<div class="panel" style="margin-top:16px"><h3>Historial del acta</h3><div id="auditTimeline" class="audit"></div></div>
+</section>
+</main>
+</div>
+
+<div id="modalWrap" class="modalWrap"><div class="modal"><div class="modalHead"><h3 id="modalTitle">Detalle</h3><button id="closeModal" class="ghost">✕</button></div><div id="modalBody"></div><div class="modalActions"><button id="modalCancel" class="secondary">Cerrar</button><button id="modalPrimary" class="primary hidden">Confirmar</button></div></div></div>
+<div id="toast" class="toast"></div>
+
+<script src="app-v5a1.js"></script>
+<script src="app-v5a2.js"></script>
+<script src="app-v5b1.js"></script>
+<script src="init-v5.js"></script>
 </body>
 </html>
