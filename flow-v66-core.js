@@ -1,1 +1,47 @@
-(()=>{const S=[['Planificar','Selecciona o crea la reunión.','meetings'],['Sincronizar','ACTA PRO prepara los datos institucionales.','dashboard'],['Preparar','Confirma participantes y consentimiento.','live'],['Reunión en vivo','Escucha y transcribe la conversación.','live'],['Generar acta','ACTA AI redacta el documento profesional.','acts'],['Firmar','Revisa y valida con ambas partes.','acts'],['Cerrar','Archiva y envía el acta.','archive']];let step=+(localStorage.getItem('actaProFlow66')||1);const q=id=>document.getElementById(id);function show(v){window.showView&&window.showView(v)}function paint(){document.querySelectorAll('.flow66-step').forEach((b,i)=>{const n=i+1;b.classList.toggle('active',n===step);b.classList.toggle('done',n<step);b.querySelector('.num').textContent=n<step?'✓':n;b.onclick=null;b.style.cursor='default'});nextCard()}function set(n){step=Math.max(1,Math.min(7,n));localStorage.setItem('actaProFlow66',step);paint()}function mount(){const top=document.querySelector('.topbar'),main=document.querySelector('.main');if(!top||!main)return;if(!q('flow66')){const w=document.createElement('div');w.id='flow66';w.className='flow66';w.innerHTML=`<div class="flow66-head"><div><strong>FLUJO ACTA PRO</strong><br><small>Planificar → Sincronizar → Preparar → Reunión → Acta → Firma → Cierre</small></div></div><div class="flow66-steps">${S.map((s,i)=>`<div class="flow66-step"><span class="num">${i+1}</span><b>${s[0]}</b><span>${s[1]}</span></div>`).join('')}</div>`;top.insertAdjacentElement('afterend',w)}if(!q('next66')){const n=document.createElement('div');n.id='next66';n.className='next66';main.insertBefore(n,main.querySelector('.view'))}syncPanel();paint()}function nextCard(){const n=q('next66');if(!n)return;const x=S[step-1];n.innerHTML=`<div><h4>${step}. ${x[0]}</h4><p>${x[1]}</p></div><button id="n66btn" class="primary">${step===7?'Volver al inicio':'Continuar'}</button>`;q('n66btn').onclick=next}function next(){if(step===1){show('dashboard');set(2);return}if(step===2){if(q('syncBtn66'))q('syncBtn66').click();else set(3);return}if(step===3){if(!q('consentCheck')?.checked){window.toast&&window.toast('Confirma el consentimiento antes de continuar.');return}q('startLiveBtn')?.click();set(4);return}if(step===4){const n=q('transcriptPanel')?.querySelectorAll('.msg').length||0;if(!n){window.toast&&window.toast('Registra al menos una intervención antes de generar el acta.');return}q('finishLiveBtn')?.click();set(5);return}if(step===5){q('approveWhole68')?.click()||q('goSignBtn')?.click();return}if(step===6){q('goSignBtn')?.click();return}show('dashboard');set(1)}function syncPanel(){const d=q('dashboard');if(!d||q('sync66'))return;const x=document.createElement('div');x.id='sync66';x.className='sync66';x.innerHTML='<span class="eyebrow">PASO 2 · SINCRONIZAR</span><h3>Google Calendar + Runachay</h3><p>ACTA PRO detecta la reunión y completa la ficha institucional.</p><div class="sync66-grid"><div class="sync66-service"><b>📅 Google Calendar</b><div class="sync66-bar"><div id="cal66"></div></div></div><div class="sync66-service"><b>🔗 Runachay</b><div class="sync66-bar"><div id="run66"></div></div></div></div><button id="syncBtn66" class="primary" style="margin-top:12px">Sincronizar</button> <span id="syncRes66" class="small muted"></span>';d.insertBefore(x,d.children[1]||null);q('syncBtn66').onclick=()=>{q('syncRes66').textContent='Sincronizando…';q('cal66').style.width='40%';q('run66').style.width='25%';setTimeout(()=>{q('cal66').style.width='100%';q('run66').style.width='100%';q('syncRes66').textContent='✓ Datos preparados';set(3);window.prepareMeeting&&window.prepareMeeting(window.currentMeetingId||'m1')},800)}}function hooks(){[['createMeetingBtn',2],['startLiveBtn',4],['finishLiveBtn',5]].forEach(([id,n])=>{const b=q(id);if(b&&!b.dataset.simple66){b.dataset.simple66=1;b.addEventListener('click',()=>setTimeout(()=>set(n),200))}});const sim=q('simulateConversation');if(sim){sim.textContent='Cargar conversación demo';sim.title='Respaldo si el micrófono no está disponible'}}function boot(){mount();hooks();setInterval(hooks,1000)}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();window.ACTAFlow66={set,steps:S}})();
+(()=>{
+const S=[['Planificar','meetings'],['Sincronizar','dashboard'],['Preparar','live'],['En vivo','live'],['Acta','acts'],['Firma','acts'],['Cierre','archive']];
+let step=+(localStorage.getItem('actaProFlow66')||1);
+const q=id=>document.getElementById(id);
+function show(v){window.showView&&window.showView(v)}
+function paint(){
+  document.querySelectorAll('.flow66-step').forEach((b,i)=>{
+    const n=i+1;
+    b.classList.toggle('active',n===step);
+    b.classList.toggle('done',n<step);
+    const num=b.querySelector('.num'); if(num) num.textContent=n<step?'✓':n;
+  });
+  const sync=q('sync66'); if(sync) sync.classList.toggle('hidden',step!==2);
+}
+function set(n){step=Math.max(1,Math.min(7,n));localStorage.setItem('actaProFlow66',step);paint()}
+function mount(){
+  const top=document.querySelector('.topbar');
+  if(!top)return;
+  if(!q('flow66')){
+    const w=document.createElement('div');
+    w.id='flow66';w.className='flow66';
+    w.innerHTML=`<div class="flow66-head"><div><strong>Demo ACTA PRO</strong><br><small>Un recorrido simple: agenda → reunión → acta → firma</small></div><button id="flowReset66" class="ghost">Reiniciar</button></div><div class="flow66-steps">${S.map((s,i)=>`<div class="flow66-step"><span class="num">${i+1}</span><b>${s[0]}</b><span></span></div>`).join('')}</div>`;
+    top.insertAdjacentElement('afterend',w);
+    q('flowReset66').onclick=()=>{set(1);show('meetings')};
+  }
+  mountSync();paint();
+}
+function mountSync(){
+  const d=q('dashboard'); if(!d||q('sync66'))return;
+  const x=document.createElement('div');x.id='sync66';x.className='sync66 hidden';
+  x.innerHTML='<span class="eyebrow">PASO 2</span><h3>Sincronizar datos</h3><p>Calendar + Runachay preparan automáticamente la ficha de la reunión.</p><div class="sync66-grid"><div class="sync66-service"><b>📅 Calendar</b><div class="sync66-bar"><div id="cal66"></div></div></div><div class="sync66-service"><b>🔗 Runachay</b><div class="sync66-bar"><div id="run66"></div></div></div></div><button id="syncBtn66" class="primary" style="margin-top:12px">Sincronizar</button> <span id="syncRes66" class="small muted"></span>';
+  d.insertBefore(x,d.children[1]||null);
+  q('syncBtn66').onclick=()=>{
+    q('syncRes66').textContent='Sincronizando…';q('cal66').style.width='45%';q('run66').style.width='30%';
+    setTimeout(()=>{q('cal66').style.width='100%';q('run66').style.width='100%';q('syncRes66').textContent='✓ Datos listos';set(3);window.prepareMeeting&&window.prepareMeeting(window.currentMeetingId||'m1')},700)
+  };
+}
+function hooks(){
+  const navMap={meetings:1,dashboard:2,live:3,acts:5,archive:7};
+  document.querySelectorAll('.nav[data-view]').forEach(b=>{if(!b.dataset.flow66){b.dataset.flow66=1;b.addEventListener('click',()=>{const n=navMap[b.dataset.view];if(n)set(n)})}});
+  [['createMeetingBtn',2],['startLiveBtn',4],['finishLiveBtn',5],['goSignBtn',6]].forEach(([id,n])=>{const b=q(id);if(b&&!b.dataset.flow66){b.dataset.flow66=1;b.addEventListener('click',()=>setTimeout(()=>set(n),150))}});
+  const sim=q('simulateConversation');if(sim){sim.textContent='🎙 Cargar conversación demo';sim.title='Genera una conversación de ejemplo para la demostración'}
+}
+function boot(){mount();hooks();setInterval(hooks,1200)}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+window.ACTAFlow66={set,steps:S,go:n=>{set(n);show(S[n-1]?.[1]||'dashboard')}};
+})();
