@@ -1,1 +1,27 @@
-(()=>{let on=false,i=0;const q=id=>document.getElementById(id),T=[['Planificar','Selecciona o crea la reunión que se convertirá en evidencia institucional.'],['Sincronizar','Calendar y Runachay completan la información sin duplicar trabajo.'],['Preparar acta','Confirma participantes y consentimiento antes de registrar la conversación.'],['Reunión en vivo','ACTA PRO transcribe, identifica intervenciones y detecta acuerdos y alertas documentales.'],['Generar acta','La IA estructura el documento; el docente revisa, edita y aprueba.'],['Firmar','Docente y representante validan el contenido y firman.'],['Almacenar y enviar','El acta queda archivada, disponible para envío y seguimiento.']];function mount(){const main=document.querySelector('.main');if(!main)return;if(!q('demo66Banner')){const b=document.createElement('div');b.id='demo66Banner';b.className='demo66-banner';b.innerHTML='<div><b>▶ DEMO EJECUTIVA ACTA PRO</b><br><small>Recorrido guiado de 7 pasos · 2–3 minutos</small></div><button id="exit66">Salir</button>';main.insertBefore(b,main.firstChild);q('exit66').onclick=stop}if(!q('coach66')){const c=document.createElement('div');c.id='coach66';c.className='demo66-coach';c.innerHTML='<h4 id="coachTitle66"></h4><p id="coachText66"></p><div class="demo66-progress"><div id="coachProg66"></div></div><div class="demo66-actions"><button id="back66" class="secondary">Anterior</button><button id="next66b" class="primary">Siguiente</button></div>';document.body.appendChild(c);q('back66').onclick=()=>go(Math.max(0,i-1));q('next66b').onclick=()=>i>=6?stop():go(i+1)}const g=q('globalDemo');if(g){g.textContent='▶ Demo ejecutiva';g.onclick=start}const x=q('exec66');if(x)x.onclick=start}function start(){on=true;i=0;q('demo66Banner')?.classList.add('show');q('coach66')?.classList.add('show');go(0)}function stop(){on=false;q('demo66Banner')?.classList.remove('show');q('coach66')?.classList.remove('show');document.querySelectorAll('.demo66-focus').forEach(x=>x.classList.remove('demo66-focus'))}function go(n){i=n;window.ACTAFlow66?.go(n+1);setTimeout(()=>{q('coachTitle66').textContent=`${n+1}. ${T[n][0]}`;q('coachText66').textContent=T[n][1];q('coachProg66').style.width=((n+1)/7*100)+'%';q('back66').disabled=n===0;q('next66b').textContent=n===6?'Finalizar demo':'Siguiente'},180)}function boot(){mount();setInterval(mount,1200)}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();window.ACTADemo66={start,stop,go}})();
+(()=>{
+let running=false,step=1;
+const q=id=>document.getElementById(id);
+const labels=['Planificar','Sincronizar','Preparar','En vivo','Generar acta','Firmar','Cerrar'];
+function refresh(){
+  const b=q('globalDemo');
+  if(!b)return;
+  b.textContent=running?`Siguiente · ${step}/7`:'▶ Iniciar demo';
+  b.classList.toggle('primary',running);b.classList.toggle('secondary',!running);
+}
+function start(){running=true;step=1;window.ACTAFlow66?.go(1);refresh();window.toast&&window.toast('Demo iniciada: selecciona una reunión y avanza con un solo botón.')}
+function next(){
+  if(!running){start();return}
+  if(step>=7){running=false;step=1;window.ACTAFlow66?.go(1);refresh();window.toast&&window.toast('Demo finalizada.');return}
+  step+=1;window.ACTAFlow66?.go(step);refresh();
+  if(step===2) setTimeout(()=>q('syncBtn66')?.click(),250);
+  if(step===3) window.prepareMeeting&&window.prepareMeeting(window.currentMeetingId||'m1');
+}
+function mount(){
+  const b=q('globalDemo'); if(b&&!b.dataset.demoSimple){b.dataset.demoSimple=1;b.onclick=next;refresh()}
+  const landing=q('landingDemo'); if(landing&&!landing.dataset.demoSimple){landing.dataset.demoSimple=1;landing.onclick=()=>{q('demoLogin')?.click();setTimeout(start,250)}}
+  const hero=q('heroDemo'); if(hero&&!hero.dataset.demoSimple){hero.dataset.demoSimple=1;hero.onclick=()=>{q('demoLogin')?.click();setTimeout(start,250)}}
+}
+function boot(){mount();setInterval(mount,1200)}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+window.ACTADemo66={start,next,stop:()=>{running=false;step=1;refresh()}};
+})();
